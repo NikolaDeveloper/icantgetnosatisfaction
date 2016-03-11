@@ -257,7 +257,7 @@ public class ProcGen : MonoBehaviour {
 
         // safety against bugs with endless loop
         int safetyCounter = 0;
-
+        
         while (trackDistanceSoFar < trackDistanceTotal)
         {
             // safety against bugs with endless loop
@@ -312,6 +312,12 @@ public class ProcGen : MonoBehaviour {
                 }
                 GameObject newEndGapTile = Instantiate(endGapTile, new Vector2(e.posEnd - oneUnit, topTrackYPos), Quaternion.identity) as GameObject;
             }
+            else if (e.type == ElementType.WoodObs)
+            {
+                GameObject newTile = Instantiate(AllElementsPrefabs[e.type], new Vector2(e.pos, topTrackYPos), Quaternion.identity) as GameObject;
+                int flip = Random.Range(0, 2);
+                if (flip == 1) newTile.GetComponent<SpriteRenderer>().flipX = true;
+            }
             else
             {
                 GameObject newTile = Instantiate(AllElementsPrefabs[e.type], new Vector2(e.pos, topTrackYPos), Quaternion.identity) as GameObject;
@@ -331,6 +337,12 @@ public class ProcGen : MonoBehaviour {
                 }
                 GameObject newEndGapTile = Instantiate(endGapTile, new Vector2(e.posEnd - oneUnit, midTrackYPos), Quaternion.identity) as GameObject;
             }
+            else if (e.type == ElementType.WoodObs)
+            {
+                GameObject newTile = Instantiate(AllElementsPrefabs[e.type], new Vector2(e.pos, midTrackYPos), Quaternion.identity) as GameObject;
+                int flip = Random.Range(0, 2);
+                if (flip == 1) newTile.GetComponent<SpriteRenderer>().flipX = true;
+            }
             else
             {
                 GameObject newTile = Instantiate(AllElementsPrefabs[e.type], new Vector2(e.pos, midTrackYPos), Quaternion.identity) as GameObject;
@@ -349,6 +361,12 @@ public class ProcGen : MonoBehaviour {
                     //GameObject newGapTile = Instantiate(woodObsTile, new Vector2(e.pos + j * oneUnit, botTrackYPos), Quaternion.identity) as GameObject;
                 }
                 GameObject newEndGapTile = Instantiate(endGapTile, new Vector2(e.posEnd - oneUnit, botTrackYPos), Quaternion.identity) as GameObject;
+            }
+            else if (e.type == ElementType.WoodObs)
+            {
+                GameObject newTile = Instantiate(AllElementsPrefabs[e.type], new Vector2(e.pos, botTrackYPos), Quaternion.identity) as GameObject;
+                int flip = Random.Range(0, 2);
+                if (flip == 1) newTile.GetComponent<SpriteRenderer>().flipX = true;
             }
             else
             {
