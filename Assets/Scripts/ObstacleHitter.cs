@@ -67,6 +67,64 @@ public class ObstacleHitter : MonoBehaviour {
                 }
             }
 
+            if (tc.currentTrack == 0)
+            {
+                if (topLaneIsFree)
+                {
+                    tc.currentTrack = 0;
+                }
+                else if (midLaneIsFree)
+                {
+                    tc.currentTrack = 1;
+                }
+                else if (botLaneIsFree)
+                {
+                    tc.currentTrack = 2;
+                }
+                else
+                {
+                    Debug.Log("ERRROR! No track is free for the train to move to.");
+                }
+            }
+            else if (tc.currentTrack == 1)
+            {
+                if (topLaneIsFree)
+                {
+                    tc.currentTrack = 0;
+                }
+                else if (midLaneIsFree)
+                {
+                    tc.currentTrack = 1;
+                }
+                else if (botLaneIsFree)
+                {
+                    tc.currentTrack = 2;
+                }
+                else
+                {
+                    Debug.Log("ERRROR! No track is free for the train to move to.");
+                }
+            }
+            else if (tc.currentTrack == 2)
+            {
+                if (midLaneIsFree)
+                {
+                    tc.currentTrack = 1;
+                }
+                else if (botLaneIsFree)
+                {
+                    tc.currentTrack = 2;
+                }
+                else if (topLaneIsFree)
+                {
+                    tc.currentTrack = 0;
+                }
+                else
+                {
+                    Debug.Log("ERRROR! No track is free for the train to move to.");
+                }
+            }
+
             if (topLaneIsFree)
             {
                 tc.currentTrack = 0;
