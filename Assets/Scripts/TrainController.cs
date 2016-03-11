@@ -19,7 +19,7 @@ public class TrainController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		trackPositions = new float[3] {200f, 50f, -100f};
+		trackPositions = new float[3] {150f, 0f, -150f};
 
 	}
 	
