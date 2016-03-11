@@ -11,12 +11,14 @@ public class PreProcessSpriteImport : AssetPostprocessor {
         {
             return;
         }
-        TextureImporter textureImporter = (TextureImporter)assetImporter;
-        TextureImporterSettings settings = new TextureImporterSettings();
-        textureImporter.ReadTextureSettings(settings);
 
         if (assetPath.Contains("Sprites"))
         {
+
+            TextureImporter textureImporter = (TextureImporter)assetImporter;
+            TextureImporterSettings settings = new TextureImporterSettings();
+            textureImporter.ReadTextureSettings(settings);
+
             // its a sprite
             Debug.Log(assetPath + " imported as sprite");
             settings.mipmapEnabled = false;
@@ -26,7 +28,8 @@ public class PreProcessSpriteImport : AssetPostprocessor {
             settings.spritePixelsPerUnit = 1;
             settings.spriteAlignment = (int)SpriteAlignment.TopLeft;
             settings.spritePivot = Vector2.zero;
+
+            textureImporter.SetTextureSettings(settings);
         }
-        textureImporter.SetTextureSettings(settings);
     }
 }
