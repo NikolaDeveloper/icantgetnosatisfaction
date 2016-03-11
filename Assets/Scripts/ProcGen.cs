@@ -169,15 +169,11 @@ public class ProcGen : MonoBehaviour {
         float trackPos = 0f;
         for (i = 0; i < levelUnitNum; i++)
         {
-            Vector2 position = new Vector2(trackPos, topTrackYPos);
-
-            GameObject newThing = Instantiate(trackTile, position, Quaternion.identity) as GameObject;
-            //newThing.transform.parent = allWheat.transform;
-
-            position = new Vector2(trackPos, midTrackYPos);
-            newThing = Instantiate(trackTile, position, Quaternion.identity) as GameObject;
-
-            position = new Vector2(trackPos, botTrackYPos);
+            GameObject newTile;
+            newTile = Instantiate(trackTile, new Vector2(trackPos, topTrackYPos), Quaternion.identity) as GameObject;
+            newTile = Instantiate(trackTile, new Vector2(trackPos, midTrackYPos), Quaternion.identity) as GameObject;
+            newTile = Instantiate(trackTile, new Vector2(trackPos, botTrackYPos), Quaternion.identity) as GameObject;
+            //newTile.transform.parent
 
             trackPos += oneUnit;
         }

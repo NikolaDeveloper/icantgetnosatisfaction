@@ -8,6 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 455502}
+  - 114: {fileID: 11466484}
   m_Layer: 0
   m_Name: ProcGen
   m_TagString: Untagged
@@ -27,6 +28,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11466484
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 192344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74d707e31365b8a47bc590c511e89154, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trackTile: {fileID: 140474, guid: cda95b817f014674790b795016f439c2, type: 2}
+  rock1ObsTile: {fileID: 119806, guid: 8193b0ba384eb70499f7d18ed1241ca7, type: 2}
+  rock2ObsTile: {fileID: 150456, guid: 9a90a1cf270a32e43a433eec1065e607, type: 2}
+  woodObsTile: {fileID: 141576, guid: d2e97d13436f1474794df696192f258a, type: 2}
+  startGapTile: {fileID: 129884, guid: 8f55934174d1ce745ad08687d949a91d, type: 2}
+  endGapTile: {fileID: 137994, guid: de6fdeadabe97c24d930f5b2e54f300d, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
