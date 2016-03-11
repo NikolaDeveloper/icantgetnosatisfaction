@@ -13,11 +13,9 @@ public class UIManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		instance = this;
-		offloadBox.ArrivedAtStation (100);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		offloadBox.PassengerDisembark ();
 	}
 }

@@ -49,5 +49,4 @@ public class OffloadBoxController : MonoBehaviour {
 		offloadText.text = offloadCount.ToString ();
 	}
 
-
 }
