@@ -7,26 +7,74 @@ public class TrainController : MonoBehaviour {
 	public float throttleIncrement = 0.05f;
 	public float trackMoveIncrement = 0.5f;
 
-	public float[] trackPositions;
+	public int passengerCapacity = 1000;
+	public int passengerFull = 500;
 
 	public int currentTrack = 1;
 
-	public float cameraThreshold = 200f;
-
 	private bool isEmergencyStopping = false;
 	private bool trackDirectionUp = false;
+	private int lastStationId = 0;
+	private float[] trackPositions;
+
+	private int passengersToDisembark = 0;
+	private float lastDisembarkment = 0;
 
 	// Use this for initialization
 	void Start () {
-
-		trackPositions = new float[3] {200f, 50f, -100f};
-
+		trackPositions = new float[3] {75f, 0f, -75f};
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		Debug.Log ("Updating");
+		passengerEmbarkment();
+		moveTrain();
+
+	}
+
+
+	private void passengerEmbarkment () {
+
+		bool isStoppedAtStation = false;
+		int currentStationId = 1;
+
+
+		if (throttleSpeed == 0f) {
+			isStoppedAtStation = true;
+		}
+
+		currentStationId = Mathf.FloorToInt(this.transform.position.x / 100) + 6;
+
+		if (isStoppedAtStation) {
+
+			float currentTime = Time.realtimeSinceStartup;
+
+			if (currentStationId > lastStationId) {
+				lastStationId = currentStationId;
+				lastDisembarkment = currentTime;
+				passengersToDisembark = Mathf.FloorToInt(passengerFull / 10);
+			}
+
+			// Get new passengers from the station
+			//newPassengers = station.embarkPassengers();
+
+			// Two seconds between passengers disembarking
+			if ((currentTime - lastDisembarkment > 0.2f) && passengersToDisembark > 0) {
+				lastDisembarkment = currentTime;
+				passengerFull--;
+				passengersToDisembark--;
+				Debug.Log(passengersToDisembark);
+				//station.disembarkPassenger();
+			}
+
+
+		}
+
+	}
+
+
+	private void moveTrain () {
 
 		CameraController cameraController = Camera.main.GetComponent<CameraController>();
 
@@ -84,7 +132,7 @@ public class TrainController : MonoBehaviour {
 		}
 
 		transform.position += new Vector3(throttleSpeed, 0f, 0f);
-			
+
 		float currentX = transform.position.x;
 
 		if (throttleSpeed > 0f) {

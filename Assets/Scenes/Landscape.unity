@@ -183,6 +183,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f3c5df99fb994ea39139bf720417ab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &582294230
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 455502, guid: caa3293ae4221514599e72e4c413311a, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 455502, guid: caa3293ae4221514599e72e4c413311a, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 455502, guid: caa3293ae4221514599e72e4c413311a, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 455502, guid: caa3293ae4221514599e72e4c413311a, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 455502, guid: caa3293ae4221514599e72e4c413311a, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 455502, guid: caa3293ae4221514599e72e4c413311a, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 455502, guid: caa3293ae4221514599e72e4c413311a, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 455502, guid: caa3293ae4221514599e72e4c413311a, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: caa3293ae4221514599e72e4c413311a, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1072558834
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,12 +256,9 @@ MonoBehaviour:
   throttleSpeed: 0
   throttleIncrement: 0.01
   trackMoveIncrement: 0.5
-  trackPositions:
-  - 200
-  - 0
-  - -100
+  passengerCapacity: 1000
+  passengerFull: 500
   currentTrack: 1
-  cameraThreshold: 200
 --- !u!212 &1072558836
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -244,9 +283,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
+  m_SortingLayerID: 392791171
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 34754df99843fdc45b395ef4a92697ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 55f6817a4cb3841669a547103aae86f6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -257,7 +296,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1072558834}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -500, y: 50, z: 0}
+  m_LocalPosition: {x: -500, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
