@@ -6,6 +6,13 @@ public class ProcGen : MonoBehaviour {
 
     public static ProcGen Instance;
 
+    // prefabs
+    public GameObject trackTile, rock1ObsTile, rock2ObsTile, woodObsTile, startGapTile, endGapTile;
+
+    float topTrackYPos = 75f;
+    float midTrackYPos = 0f;
+    float botTrackYPos = -75f;
+
     int indexTopTrack = 0;
     int indexMidTrack = 0;
     int indexBotTrack = 0;
@@ -51,6 +58,8 @@ public class ProcGen : MonoBehaviour {
         {
             Debug.Log("In TOP: " + e.type + " at X pos " + e.pos);
         }
+
+        CreateLevel();
     }
 
     public void Generate()
@@ -155,6 +164,24 @@ public class ProcGen : MonoBehaviour {
 
     void CreateLevel()
     {
+        int i = 0;
+        int levelUnitNum = 60;
+        float trackPos = 0f;
+        for (i = 0; i < levelUnitNum; i++)
+        {
+            Vector2 position = new Vector2(trackPos, topTrackYPos);
+
+            GameObject newThing = Instantiate(trackTile, position, Quaternion.identity) as GameObject;
+            //newThing.transform.parent = allWheat.transform;
+
+            position = new Vector2(trackPos, midTrackYPos);
+            newThing = Instantiate(trackTile, position, Quaternion.identity) as GameObject;
+
+            position = new Vector2(trackPos, botTrackYPos);
+
+            trackPos += oneUnit;
+        }
+
         foreach (Element e in topTrack)
         {
 
