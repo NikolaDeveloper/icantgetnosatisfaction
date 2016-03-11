@@ -7,7 +7,7 @@ public class ProcGen : MonoBehaviour {
     public static ProcGen Instance;
 
     // prefabs
-    public GameObject trackTile, woodObsTile, startGapTile, endGapTile;
+    public GameObject trackTile, woodObsTile, startGapTile, endGapTile, gapTile;
     public GameObject decoRock1, decoRock2, decoTree1, decoTree2, decoTree3;
     
     float topTrackYPos = 75f;
@@ -99,6 +99,11 @@ public class ProcGen : MonoBehaviour {
         if (obsLane == 0)
         {
             topTrack.Add(e);
+            for (int i = 1; i < numOfUnits; i++)
+            {
+                topTrack.Add(new Element(obsType, xPos + i * oneUnit));
+            }
+
             for (int i = 0; i < numOfUnits; i++)
             {
                 midTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
@@ -108,6 +113,12 @@ public class ProcGen : MonoBehaviour {
         else if (obsLane == 1)
         {
             midTrack.Add(e);
+
+            for (int i = 1; i < numOfUnits; i++)
+            {
+                midTrack.Add(new Element(obsType, xPos + i * oneUnit));
+            }
+
             for (int i = 0; i < numOfUnits; i++)
             {
                 topTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
@@ -117,6 +128,12 @@ public class ProcGen : MonoBehaviour {
         else if (obsLane == 2)
         {
             botTrack.Add(e);
+
+            for (int i = 1; i < numOfUnits; i++)
+            {
+                botTrack.Add(new Element(obsType, xPos + i * oneUnit));
+            }
+
             for (int i = 0; i < numOfUnits; i++)
             {
                 topTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
@@ -173,6 +190,15 @@ public class ProcGen : MonoBehaviour {
             midTrack.Add(e1);
             botTrack.Add(e2);
 
+            for (int i = 1; i < numOfUnits1; i++)
+            {
+                midTrack.Add(new Element(obsType1, xPos + i * oneUnit));
+            }
+            for (int i = 1; i < numOfUnits2; i++)
+            {
+                botTrack.Add(new Element(obsType2, xPos + i * oneUnit));
+            }
+
             for (int i = 0; i < Mathf.Max(numOfUnits1, numOfUnits2); i++)
             {
                 topTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
@@ -196,6 +222,15 @@ public class ProcGen : MonoBehaviour {
             topTrack.Add(e1);
             botTrack.Add(e2);
 
+            for (int i = 1; i < numOfUnits1; i++)
+            {
+                topTrack.Add(new Element(obsType1, xPos + i * oneUnit));
+            }
+            for (int i = 1; i < numOfUnits2; i++)
+            {
+                botTrack.Add(new Element(obsType2, xPos + i * oneUnit));
+            }
+
             for (int i = 0; i < Mathf.Max(numOfUnits1, numOfUnits2); i++)
             {
                 midTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
@@ -217,6 +252,15 @@ public class ProcGen : MonoBehaviour {
         {
             topTrack.Add(e1);
             midTrack.Add(e2);
+
+            for (int i = 1; i < numOfUnits1; i++)
+            {
+                topTrack.Add(new Element(obsType1, xPos + i * oneUnit));
+            }
+            for (int i = 1; i < numOfUnits2; i++)
+            {
+                midTrack.Add(new Element(obsType2, xPos + i * oneUnit));
+            }
 
             for (int i = 0; i < Mathf.Max(numOfUnits1, numOfUnits2); i++)
             {
@@ -303,14 +347,20 @@ public class ProcGen : MonoBehaviour {
         {
             if (e.type == ElementType.Gap)
             {
-                GameObject newStartGapTile = Instantiate(startGapTile, new Vector2(e.pos, topTrackYPos), Quaternion.identity) as GameObject;
-                int gaps = (int)((e.posEnd - e.pos) / oneUnit) - 2;
-                for (int j=1; j <= gaps; j++)
+                if (e.posEnd == -1f)
                 {
-                    // add nothing
-                    //GameObject newGapTile = Instantiate(woodObsTile, new Vector2(e.pos + j * oneUnit, topTrackYPos), Quaternion.identity) as GameObject;
+                    // skip
                 }
-                GameObject newEndGapTile = Instantiate(endGapTile, new Vector2(e.posEnd - oneUnit, topTrackYPos), Quaternion.identity) as GameObject;
+                else
+                {
+                    GameObject newStartGapTile = Instantiate(startGapTile, new Vector2(e.pos, topTrackYPos), Quaternion.identity) as GameObject;
+                    int gaps = (int)((e.posEnd - e.pos) / oneUnit) - 2;
+                    for (int j = 1; j <= gaps; j++)
+                    {
+                        //GameObject newGapTile = Instantiate(gapTile, new Vector2(e.pos + j * oneUnit, topTrackYPos), Quaternion.identity) as GameObject;
+                    }
+                    GameObject newEndGapTile = Instantiate(endGapTile, new Vector2(e.posEnd - oneUnit, topTrackYPos), Quaternion.identity) as GameObject;
+                }
             }
             else if (e.type == ElementType.WoodObs)
             {
@@ -328,14 +378,20 @@ public class ProcGen : MonoBehaviour {
         {
             if (e.type == ElementType.Gap)
             {
-                GameObject newStartGapTile = Instantiate(startGapTile, new Vector2(e.pos, midTrackYPos), Quaternion.identity) as GameObject;
-                int gaps = (int)((e.posEnd - e.pos) / oneUnit) - 2;
-                for (int j = 1; j <= gaps; j++)
+                if (e.posEnd == -1f)
                 {
-                    // add nothing
-                    //GameObject newGapTile = Instantiate(woodObsTile, new Vector2(e.pos + j * oneUnit, midTrackYPos), Quaternion.identity) as GameObject;
+                    // skip
                 }
-                GameObject newEndGapTile = Instantiate(endGapTile, new Vector2(e.posEnd - oneUnit, midTrackYPos), Quaternion.identity) as GameObject;
+                else
+                {
+                    GameObject newStartGapTile = Instantiate(startGapTile, new Vector2(e.pos, midTrackYPos), Quaternion.identity) as GameObject;
+                    int gaps = (int)((e.posEnd - e.pos) / oneUnit) - 2;
+                    for (int j = 1; j <= gaps; j++)
+                    {
+                        //GameObject newGapTile = Instantiate(gapTile, new Vector2(e.pos + j * oneUnit, midTrackYPos), Quaternion.identity) as GameObject;
+                    }
+                    GameObject newEndGapTile = Instantiate(endGapTile, new Vector2(e.posEnd - oneUnit, midTrackYPos), Quaternion.identity) as GameObject;
+                }
             }
             else if (e.type == ElementType.WoodObs)
             {
@@ -353,14 +409,20 @@ public class ProcGen : MonoBehaviour {
         {
             if (e.type == ElementType.Gap)
             {
-                GameObject newStartGapTile = Instantiate(startGapTile, new Vector2(e.pos, botTrackYPos), Quaternion.identity) as GameObject;
-                int gaps = (int)((e.posEnd - e.pos) / oneUnit) - 2;
-                for (int j = 1; j <= gaps; j++)
+                if (e.posEnd == -1f)
                 {
-                    // add nothing
-                    //GameObject newGapTile = Instantiate(woodObsTile, new Vector2(e.pos + j * oneUnit, botTrackYPos), Quaternion.identity) as GameObject;
+                    // skip
                 }
-                GameObject newEndGapTile = Instantiate(endGapTile, new Vector2(e.posEnd - oneUnit, botTrackYPos), Quaternion.identity) as GameObject;
+                else
+                {
+                    GameObject newStartGapTile = Instantiate(startGapTile, new Vector2(e.pos, botTrackYPos), Quaternion.identity) as GameObject;
+                    int gaps = (int)((e.posEnd - e.pos) / oneUnit) - 2;
+                    for (int j = 1; j <= gaps; j++)
+                    {
+                        //GameObject newGapTile = Instantiate(gapTile, new Vector2(e.pos + j * oneUnit, botTrackYPos), Quaternion.identity) as GameObject;
+                    }
+                    GameObject newEndGapTile = Instantiate(endGapTile, new Vector2(e.posEnd - oneUnit, botTrackYPos), Quaternion.identity) as GameObject;
+                }
             }
             else if (e.type == ElementType.WoodObs)
             {
