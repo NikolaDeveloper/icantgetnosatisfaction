@@ -22,27 +22,35 @@ public class TrainController : MonoBehaviour {
 
 	void FixedUpdate () {
 
-		bool isAccelerating = false;
+		CameraController cameraController = mainCamera.GetComponent<CameraController>();
+
+		bool isDecelerating = false;
+		float currentDeceleration = throttleIncrement;
 
 		if (Input.GetKey("right")) {
 			// Accelerating after emergency stopping cancels the emergency stop
 			isEmergencyStopping = false;
-			isAccelerating = true;
+			isDecelerating = false;
 			throttleSpeed = throttleSpeed + throttleIncrement;
 		}
 
 		// Cant decelerate faster than an emergency stop
 		if (Input.GetKey("left") && !isEmergencyStopping) {
-			throttleSpeed = throttleSpeed - throttleIncrement;
+			isDecelerating = true;
+			currentDeceleration = -throttleIncrement;
+			throttleSpeed = throttleSpeed + currentDeceleration;
 		}
 
 		// Allow user to hit space once instead of requiring them to hold it down
 		if (Input.GetKey("space") || isEmergencyStopping) {
+			isDecelerating = true;
 			isEmergencyStopping = true;
-			throttleSpeed = throttleSpeed - (3 * throttleIncrement);
+			currentDeceleration = -(3 * throttleIncrement);
+			throttleSpeed = throttleSpeed + currentDeceleration;
 		}
 
 		if (throttleSpeed < 0f) {
+			isDecelerating = false;
 			throttleSpeed = 0f;
 		}
 
@@ -50,8 +58,15 @@ public class TrainController : MonoBehaviour {
 			
 		float currentX = transform.position.x;
 
-		if (currentX > cameraThreshold) {
-			mainCamera.transform.position = new Vector3(currentX - cameraThreshold, mainCamera.transform.position.y, mainCamera.transform.position.z);
+		if (throttleSpeed > 0f) {
+
+			float timeToStop = throttleSpeed / throttleIncrement;
+			float cameraNeutral = currentX + 500f;
+
+			float targetCameraPos = mainCamera.transform.position.x - (cameraNeutral - mainCamera.transform.position.x);
+
+			cameraController.moveCameraX(mainCamera.transform.position.x - ((targetCameraPos - mainCamera.transform.position.x) / timeToStop));
+
 		}
 
 	}
