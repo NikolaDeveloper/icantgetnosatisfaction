@@ -26,7 +26,7 @@ public class PreProcessSpriteImport : AssetPostprocessor {
             settings.filterMode = FilterMode.Trilinear;
             settings.textureFormat = TextureImporterFormat.AutomaticTruecolor;
             settings.spritePixelsPerUnit = 1;
-            settings.spriteAlignment = (int)SpriteAlignment.TopLeft;
+            settings.spriteAlignment = (int)SpriteAlignment.Center;
             settings.spritePivot = Vector2.zero;
 
             textureImporter.SetTextureSettings(settings);
