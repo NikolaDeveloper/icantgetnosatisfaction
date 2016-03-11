@@ -256,12 +256,9 @@ MonoBehaviour:
   throttleSpeed: 0
   throttleIncrement: 0.01
   trackMoveIncrement: 0.5
-  trackPositions:
-  - 200
-  - 0
-  - -100
+  passengerCapacity: 1000
+  passengerFull: 500
   currentTrack: 1
-  cameraThreshold: 200
 --- !u!212 &1072558836
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -286,9 +283,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
+  m_SortingLayerID: 392791171
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 34754df99843fdc45b395ef4a92697ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 55f6817a4cb3841669a547103aae86f6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
