@@ -97,6 +97,7 @@ GameObject:
   - 92: {fileID: 272526761}
   - 124: {fileID: 272526760}
   - 81: {fileID: 272526759}
+  - 114: {fileID: 272526764}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -171,6 +172,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &272526764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 272526758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f3c5df99fb994ea39139bf720417ab4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1072558834
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,6 +213,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throttleSpeed: 0
   throttleIncrement: 0.01
+  trackMoveIncrement: 0.5
+  trackPositions:
+  - 200
+  - 0
+  - -100
+  currentTrack: 1
+  cameraThreshold: 200
 --- !u!212 &1072558836
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -5,52 +5,81 @@ public class TrainController : MonoBehaviour {
 
 	public float throttleSpeed = 0f;
 	public float throttleIncrement = 0.05f;
+	public float trackMoveIncrement = 0.5f;
+
+	public float[] trackPositions;
+
+	public int currentTrack = 1;
 
 	public float cameraThreshold = 200f;
 
-	public Camera mainCamera;
-
 	private bool isEmergencyStopping = false;
+	private bool trackDirectionUp = false;
 
 	// Use this for initialization
 	void Start () {
+
+		trackPositions = new float[3] {200f, 50f, -100f};
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	}
 
-	void FixedUpdate () {
+		Debug.Log ("Updating");
 
-		CameraController cameraController = mainCamera.GetComponent<CameraController>();
+		CameraController cameraController = Camera.main.GetComponent<CameraController>();
 
-		bool isDecelerating = false;
-		float currentDeceleration = throttleIncrement;
+		float currentDeceleration = ((Time.deltaTime * 1000) * throttleIncrement);
 
 		if (Input.GetKey("right")) {
 			// Accelerating after emergency stopping cancels the emergency stop
 			isEmergencyStopping = false;
-			isDecelerating = false;
 			throttleSpeed = throttleSpeed + throttleIncrement;
 		}
 
 		// Cant decelerate faster than an emergency stop
 		if (Input.GetKey("left") && !isEmergencyStopping) {
-			isDecelerating = true;
 			currentDeceleration = -throttleIncrement;
 			throttleSpeed = throttleSpeed + currentDeceleration;
 		}
 
 		// Allow user to hit space once instead of requiring them to hold it down
 		if (Input.GetKey("space") || isEmergencyStopping) {
-			isDecelerating = true;
 			isEmergencyStopping = true;
 			currentDeceleration = -(3 * throttleIncrement);
 			throttleSpeed = throttleSpeed + currentDeceleration;
 		}
 
+		if (Input.GetKeyUp("up")) {
+			if (currentTrack > 0) {
+				trackDirectionUp = true;
+				Debug.Log ("Moving Up");
+				currentTrack--;
+			}
+		}
+
+		if (Input.GetKeyUp("down")) {
+			if (currentTrack < trackPositions.Length - 1) {
+				trackDirectionUp = false;
+				Debug.Log ("Moving Down");
+				currentTrack++;
+			}
+		}
+
+		if (this.transform.position.y < trackPositions[currentTrack]) {
+			this.setTrainY(this.transform.position.y + ((Time.deltaTime * 1000) * trackMoveIncrement));
+		} else if (this.transform.position.y > trackPositions[currentTrack]) {
+			this.setTrainY(this.transform.position.y - ((Time.deltaTime * 1000) * trackMoveIncrement));
+		}
+
+		if (trackDirectionUp && this.transform.position.y > trackPositions[currentTrack]) {
+			this.setTrainY(trackPositions[currentTrack]);
+		} else if (!trackDirectionUp && trackPositions[currentTrack] > this.transform.position.y) {
+			this.setTrainY(trackPositions[currentTrack]);
+		}
+
 		if (throttleSpeed < 0f) {
-			isDecelerating = false;
 			throttleSpeed = 0f;
 		}
 
@@ -59,16 +88,25 @@ public class TrainController : MonoBehaviour {
 		float currentX = transform.position.x;
 
 		if (throttleSpeed > 0f) {
+			cameraController.moveCameraBasedOnTrainPos(currentX, throttleSpeed / throttleIncrement);
+		}
 
-			float timeToStop = throttleSpeed / throttleIncrement;
-			float cameraNeutral = currentX + 500f;
-
-			float targetCameraPos = mainCamera.transform.position.x - (cameraNeutral - mainCamera.transform.position.x);
-
-			cameraController.moveCameraX(mainCamera.transform.position.x - ((targetCameraPos - mainCamera.transform.position.x) / timeToStop));
-
+		if (Camera.main.transform.position.x > currentX + 500f) {
+			cameraController.setCameraX(currentX + 500f);
+		} else if (Camera.main.transform.position.x < currentX - 200f) {
+			cameraController.setCameraX(currentX - 200f);
 		}
 
 	}
+
+
+	private void setTrainY (float pos) {
+		this.transform.position = new Vector3(
+			this.transform.position.x,
+			pos,
+			this.transform.position.z
+		);
+	}
+
 
 }
