@@ -10,9 +10,9 @@ public class ProcGen : MonoBehaviour {
     public GameObject trackTile, woodObsTile, startGapTile, endGapTile;
     public GameObject decoRock1, decoRock2, decoTree1, decoTree2, decoTree3;
     
-    float topTrackYPos = 150f;
+    float topTrackYPos = 75f;
     float midTrackYPos = 0f;
-    float botTrackYPos = -150f;
+    float botTrackYPos = -75f;
 
     float trackDistanceTotal = 6000f;
 
