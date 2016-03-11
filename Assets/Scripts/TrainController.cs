@@ -15,6 +15,7 @@ public class TrainController : MonoBehaviour {
 	private bool isEmergencyStopping = false;
 	private bool trackDirectionUp = false;
 	private int lastStationId = 0;
+	private bool wasStoppedAtStation = false;
 	private float[] trackPositions;
 
 	private int passengersToDisembark = 0;
@@ -22,6 +23,7 @@ public class TrainController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		this.passengerFull = StationsController.Instance.getInitialPassengers(this.passengerCapacity);
 		trackPositions = new float[3] {75f, 0f, -75f};
 	}
 	
@@ -44,9 +46,10 @@ public class TrainController : MonoBehaviour {
 			isStoppedAtStation = true;
 		}
 
-		currentStationId = Mathf.FloorToInt(this.transform.position.x / 100) + 6;
+		currentStationId = Mathf.FloorToInt(this.transform.position.x / 500) + 6;
 
 		if (isStoppedAtStation) {
+			wasStoppedAtStation = true;
 
 			float currentTime = Time.realtimeSinceStartup;
 
@@ -56,18 +59,26 @@ public class TrainController : MonoBehaviour {
 				passengersToDisembark = Mathf.FloorToInt(passengerFull / 10);
 			}
 
+			StationsController.Instance.arriveAtStation(passengersToDisembark);
+
 			// Get new passengers from the station
-			//newPassengers = station.embarkPassengers();
+			passengerFull += StationsController.Instance.embarkPassenger();
 
 			// Two seconds between passengers disembarking
 			if ((currentTime - lastDisembarkment > 0.2f) && passengersToDisembark > 0) {
 				lastDisembarkment = currentTime;
 				passengerFull--;
 				passengersToDisembark--;
-				Debug.Log(passengersToDisembark);
-				//station.disembarkPassenger();
+				//Debug.Log (passengersToDisembark);
+				StationsController.Instance.disembarkPassenger();
 			}
+				
+		} else {
 
+			if (wasStoppedAtStation) {
+				wasStoppedAtStation = false;
+				StationsController.Instance.departStation();
+			}
 
 		}
 
