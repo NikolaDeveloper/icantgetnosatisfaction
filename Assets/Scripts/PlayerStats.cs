@@ -12,19 +12,14 @@ public class PlayerStats : MonoBehaviour {
 	public Color secondaryColor = Color.white;
 	public Color tertiaryColor = Color.white;
 
-
-
-	public PlayerStats(){
+	public static PlayerStats GetInstance () {
 		
 		if (instance == null) {
-			instance = this;
+			instance = new PlayerStats();
 		}
 
 		return instance;
+
 	}
-
-
-
-
 
 }
