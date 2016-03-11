@@ -7,29 +7,29 @@ public class ProcGen : MonoBehaviour {
     public static ProcGen Instance;
 
     // prefabs
-    public GameObject trackTile, rock1ObsTile, rock2ObsTile, woodObsTile, startGapTile, endGapTile;
-
+    public GameObject trackTile, woodObsTile, startGapTile, endGapTile;
+    public GameObject decoRock1, decoRock2, decoTree1, decoTree2, decoTree3;
+    
     float topTrackYPos = 75f;
     float midTrackYPos = 0f;
     float botTrackYPos = -75f;
 
-    int indexTopTrack = 0;
-    int indexMidTrack = 0;
-    int indexBotTrack = 0;
+    float trackDistanceTotal = 10000f;
 
-    internal enum ElementType { GenericObstacleTile };
-
-    int numOfElements = 1;
+    internal enum ElementType { Track, WoodObs, Gap };
+    int numOfElements = 3;
 
     float oneUnit = 50f;
-    //internal float elementLength = 50f;
 
-    List<ElementType> AllObstacles;
-    
+    Dictionary<ElementType, GameObject> AllElementsPrefabs;
+
+    List<ElementType> AllElements;
+
     internal class Element
     {
         internal ElementType type;
         internal float pos;
+        internal float posEnd = -1f;
 
         internal Element(ElementType t, float p)
         {
@@ -47,19 +47,30 @@ public class ProcGen : MonoBehaviour {
 
     void Start()
     {
-        AllObstacles = new List<ElementType>(numOfElements);
-        AllObstacles.Add(ElementType.GenericObstacleTile);
+        AllElements = new List<ElementType>(numOfElements);
+        AllElements.Add(ElementType.Track);
+        AllElements.Add(ElementType.WoodObs);
+        AllElements.Add(ElementType.Gap);
+
+        AllElementsPrefabs = new Dictionary<ElementType, GameObject>();
+        AllElementsPrefabs[ElementType.Track] = trackTile;
+        AllElementsPrefabs[ElementType.WoodObs] = woodObsTile;
+        AllElementsPrefabs[ElementType.Gap] = startGapTile;
 
         Generate();
-        Debug.Log(topTrack.Count);
-        Debug.Log(midTrack.Count);
-        Debug.Log(botTrack.Count);
-        foreach (Element e in topTrack)
-        {
-            Debug.Log("In TOP: " + e.type + " at X pos " + e.pos);
-        }
-
         CreateLevel();
+    }
+
+    float AddTracksToAllLanes(float xPos, int n)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            topTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
+            midTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
+            botTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
+        }
+        xPos += oneUnit * n;
+        return xPos;
     }
 
     public void Generate()
@@ -69,21 +80,14 @@ public class ProcGen : MonoBehaviour {
         botTrack = new List<Element>();
 
         float trackDistanceSoFar = 0f;
-        float trackDistanceTotal = 3000f;
-        //float trackDistanceTotal = 5120f;
-
-        // just for figuring stuff out
-        float speed = 128f; // 128 pixels per second (go through a screen in 10 seconds)
-        float time = 40f; // 40 seconds
-
 
         float chanceAllLanesFree = 0.1f;
         float chanceTwoLanesFree = 0.6f;
         float chanceOneLaneFree = 0.3f;
 
         // start making the level
-        
-        trackDistanceSoFar += oneUnit * 4f;
+
+        trackDistanceSoFar = AddTracksToAllLanes(trackDistanceSoFar, 5);
 
         // safety against bugs with endless loop
         int safetyCounter = 0;
@@ -102,70 +106,174 @@ public class ProcGen : MonoBehaviour {
             // if we have all lanes open
             if (v <= chanceAllLanesFree)
             {
-                trackDistanceSoFar += oneUnit;
+                trackDistanceSoFar = AddTracksToAllLanes(trackDistanceSoFar, 1);
             }
             // if we have two open lanes and one obstacle
             else if (v <= chanceAllLanesFree + chanceTwoLanesFree)
             {
-                // get random obstacle type
-                int obsTypeInt = Random.Range(0, numOfElements);
-                ElementType obsType = AllObstacles[obsTypeInt];
-
                 // choose the blocked lane
                 int lane = Random.Range(0, 2);
-                // top
-                if (lane == 0) topTrack.Add(new Element(obsType, trackDistanceSoFar));
-                // mid
-                else if (lane == 1) midTrack.Add(new Element(obsType, trackDistanceSoFar));
-                // bot
-                else if (lane == 2) botTrack.Add(new Element(obsType, trackDistanceSoFar));
 
-                trackDistanceSoFar += oneUnit;
+                if (lane == 0)
+                {
+                    midTrack.Add(new Element(ElementType.Track, trackDistanceSoFar));
+                    botTrack.Add(new Element(ElementType.Track, trackDistanceSoFar));
+
+                    float prevTrack = trackDistanceSoFar + oneUnit;
+                    trackDistanceSoFar = AddElementToTrack(trackDistanceSoFar, lane);
+                    int len = (int)((trackDistanceSoFar - prevTrack) / oneUnit);
+                    if (len > 0)
+                    {
+                        for (int j = 0; j < len; j++)
+                        {
+                            midTrack.Add(new Element(ElementType.Track, prevTrack + j * oneUnit));
+                            botTrack.Add(new Element(ElementType.Track, prevTrack * j * oneUnit));
+                        }
+                    }
+
+                }
+                else if (lane == 1)
+                {
+                    topTrack.Add(new Element(ElementType.Track, trackDistanceSoFar));
+                    botTrack.Add(new Element(ElementType.Track, trackDistanceSoFar));
+
+                    float prevTrack = trackDistanceSoFar + oneUnit;
+                    trackDistanceSoFar = AddElementToTrack(trackDistanceSoFar, lane);
+                    int len = (int)((trackDistanceSoFar - prevTrack) / oneUnit);
+                    if (len > 0)
+                    {
+                        for (int j = 0; j < len; j++)
+                        {
+                            topTrack.Add(new Element(ElementType.Track, prevTrack + j * oneUnit));
+                            botTrack.Add(new Element(ElementType.Track, prevTrack * j * oneUnit));
+                        }
+                    }
+                }
+                else if (lane == 2)
+                {
+                    topTrack.Add(new Element(ElementType.Track, trackDistanceSoFar));
+                    midTrack.Add(new Element(ElementType.Track, trackDistanceSoFar));
+
+                    float prevTrack = trackDistanceSoFar + oneUnit;
+                    trackDistanceSoFar = AddElementToTrack(trackDistanceSoFar, lane);
+                    int len = (int)((trackDistanceSoFar - prevTrack) / oneUnit);
+                    if (len > 0)
+                    {
+                        for (int j = 0; j < len; j++)
+                        {
+                            topTrack.Add(new Element(ElementType.Track, prevTrack + j * oneUnit));
+                            midTrack.Add(new Element(ElementType.Track, prevTrack * j * oneUnit));
+                        }
+                    }
+                }
             }
             // if we have one open lane and two obstacles
             else if (v <= chanceAllLanesFree + chanceTwoLanesFree + chanceOneLaneFree)
             {
-                // get random obstacle type
-                int obsTypeInt1 = Random.Range(0, numOfElements);
-                ElementType obsType1 = AllObstacles[obsTypeInt1];
-
-                // get another random obstacle type
-                int obsTypeInt2 = Random.Range(0, numOfElements);
-                ElementType obsType2 = AllObstacles[obsTypeInt2];
-
                 // choose the empty lane
                 int lane = Random.Range(0, 2);
+
+                float firstTrackDistance = 0f, secondTrackDistance = 0f;
+
                 // top
                 if (lane == 0)
                 {
-                    midTrack.Add(new Element(obsType1, trackDistanceSoFar));
-                    botTrack.Add(new Element(obsType2, trackDistanceSoFar));
+                    topTrack.Add(new Element(ElementType.Track, trackDistanceSoFar));
+
+                    firstTrackDistance = AddElementToTrack(trackDistanceSoFar, 1);
+                    secondTrackDistance = AddElementToTrack(trackDistanceSoFar, 2);
+
+                    float prevTrack = trackDistanceSoFar + oneUnit;
+                    int len = (int)((Mathf.Max(firstTrackDistance, secondTrackDistance) - prevTrack) / oneUnit);
+                    if (len > 0)
+                    {
+                        for (int j = 0; j < len; j++)
+                        {
+                            topTrack.Add(new Element(ElementType.Track, prevTrack + j * oneUnit));
+                        }
+                    }
                 }
                 // mid
                 else if (lane == 1)
                 {
-                    topTrack.Add(new Element(obsType1, trackDistanceSoFar));
-                    botTrack.Add(new Element(obsType2, trackDistanceSoFar));
+                    midTrack.Add(new Element(ElementType.Track, trackDistanceSoFar));
+
+                    firstTrackDistance = AddElementToTrack(trackDistanceSoFar, 0);
+                    secondTrackDistance = AddElementToTrack(trackDistanceSoFar, 2);
+
+                    float prevTrack = trackDistanceSoFar + oneUnit;
+                    int len = (int)((Mathf.Max(firstTrackDistance, secondTrackDistance) - prevTrack) / oneUnit);
+                    if (len > 0)
+                    {
+                        for (int j = 0; j < len; j++)
+                        {
+                            midTrack.Add(new Element(ElementType.Track, prevTrack + j * oneUnit));
+                        }
+                    }
                 }
                 //bot
                 else if (lane == 2)
                 {
-                    topTrack.Add(new Element(obsType1, trackDistanceSoFar));
-                    midTrack.Add(new Element(obsType1, trackDistanceSoFar));
+                    botTrack.Add(new Element(ElementType.Track, trackDistanceSoFar));
+
+                    firstTrackDistance = AddElementToTrack(trackDistanceSoFar, 0);
+                    secondTrackDistance = AddElementToTrack(trackDistanceSoFar, 1);
+
+                    float prevTrack = trackDistanceSoFar + oneUnit;
+                    int len = (int)((Mathf.Max(firstTrackDistance, secondTrackDistance) - prevTrack) / oneUnit);
+                    if (len > 0)
+                    {
+                        for (int j = 0; j < len; j++)
+                        {
+                            botTrack.Add(new Element(ElementType.Track, prevTrack + j * oneUnit));
+                        }
+                    }
                 }
-                trackDistanceSoFar += oneUnit;
+                trackDistanceSoFar = Mathf.Max(firstTrackDistance, secondTrackDistance);
             }
 
             // train is 3 times longer than the obstacles, so add space
-            trackDistanceSoFar += oneUnit * 3f;
+            trackDistanceSoFar = AddTracksToAllLanes(trackDistanceSoFar, 5);
         }
         Debug.Log("While ran " + safetyCounter + " times.");
     }
 
+    float AddElementToTrack(float xPos, int l)
+    {
+        // get random element type
+        int obsTypeInt = Random.Range(0, numOfElements);
+        ElementType obsType = AllElements[obsTypeInt];
+        
+        if (obsType == ElementType.Gap)
+        {
+            Element e = new Element(obsType, xPos);
+            int numOfGapUnits = Random.Range(1, 4);
+            xPos += (2 + numOfGapUnits) * oneUnit;
+            e.posEnd = xPos;
+
+            if (l == 0) topTrack.Add(e);
+            else if (l == 1) midTrack.Add(e);
+            else if (l == 2) botTrack.Add(e);
+            
+            return xPos;
+        }
+        else
+        {
+            Element e = new Element(obsType, xPos);
+            if (l == 0) topTrack.Add(e);
+            else if (l == 1) midTrack.Add(e);
+            else if (l == 2) botTrack.Add(e);
+
+            xPos += oneUnit;
+            return xPos;
+        }
+    }
+
     void CreateLevel()
     {
+        /*
         int i = 0;
-        int levelUnitNum = 60;
+        int levelUnitNum = (int)(trackDistanceTotal / oneUnit);
         float trackPos = 0f;
         for (i = 0; i < levelUnitNum; i++)
         {
@@ -177,10 +285,72 @@ public class ProcGen : MonoBehaviour {
 
             trackPos += oneUnit;
         }
+        */
 
         foreach (Element e in topTrack)
         {
+            if (e.type == ElementType.Gap)
+            {
+                GameObject newStartGapTile = Instantiate(startGapTile, new Vector2(e.pos, topTrackYPos), Quaternion.identity) as GameObject;
+                //newTile.transform.parent
+                int gaps = (int)((e.posEnd - e.pos) / oneUnit) - 2;
+                for (int j=1; j <= gaps; j++)
+                {
+                    //GameObject newGapTile = Instantiate(woodObsTile, new Vector2(e.pos + j * oneUnit, topTrackYPos), Quaternion.identity) as GameObject;
+                    //newTile.transform.parent
+                }
+                GameObject newEndGapTile = Instantiate(endGapTile, new Vector2(e.posEnd - oneUnit, topTrackYPos), Quaternion.identity) as GameObject;
+                //newTile.transform.parent
+            }
+            else
+            {
+                GameObject newTile = Instantiate(AllElementsPrefabs[e.type], new Vector2(e.pos, topTrackYPos), Quaternion.identity) as GameObject;
+                //newTile.transform.parent
+            }
+        }
 
+        foreach (Element e in midTrack)
+        {
+            if (e.type == ElementType.Gap)
+            {
+                GameObject newStartGapTile = Instantiate(startGapTile, new Vector2(e.pos, midTrackYPos), Quaternion.identity) as GameObject;
+                //newTile.transform.parent
+                int gaps = (int)((e.posEnd - e.pos) / oneUnit) - 2;
+                for (int j = 1; j <= gaps; j++)
+                {
+                    //GameObject newGapTile = Instantiate(woodObsTile, new Vector2(e.pos + j * oneUnit, midTrackYPos), Quaternion.identity) as GameObject;
+                    //newTile.transform.parent
+                }
+                GameObject newEndGapTile = Instantiate(endGapTile, new Vector2(e.posEnd - oneUnit, midTrackYPos), Quaternion.identity) as GameObject;
+                //newTile.transform.parent
+            }
+            else
+            {
+                GameObject newTile = Instantiate(AllElementsPrefabs[e.type], new Vector2(e.pos, midTrackYPos), Quaternion.identity) as GameObject;
+                //newTile.transform.parent
+            }
+        }
+
+        foreach (Element e in botTrack)
+        {
+            if (e.type == ElementType.Gap)
+            {
+                GameObject newStartGapTile = Instantiate(startGapTile, new Vector2(e.pos, botTrackYPos), Quaternion.identity) as GameObject;
+                //newTile.transform.parent
+                int gaps = (int)((e.posEnd - e.pos) / oneUnit) - 2;
+                for (int j = 1; j <= gaps; j++)
+                {
+                    //GameObject newGapTile = Instantiate(woodObsTile, new Vector2(e.pos + j * oneUnit, botTrackYPos), Quaternion.identity) as GameObject;
+                    //newTile.transform.parent
+                }
+                GameObject newEndGapTile = Instantiate(endGapTile, new Vector2(e.posEnd - oneUnit, botTrackYPos), Quaternion.identity) as GameObject;
+                //newTile.transform.parent
+            }
+            else
+            {
+                GameObject newTile = Instantiate(AllElementsPrefabs[e.type], new Vector2(e.pos, botTrackYPos), Quaternion.identity) as GameObject;
+                //newTile.transform.parent
+            }
         }
     }
 
