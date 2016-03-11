@@ -13,4 +13,10 @@ public class CameraController : MonoBehaviour {
 	
 	}
 
+
+	public void moveCameraX (float pos) {
+		this.transform.position = new Vector3(pos, this.transform.position.y, this.transform.position.z);
+	}
+
+
 }
