@@ -8,6 +8,7 @@ public class OffloadBoxController : MonoBehaviour {
 	public Animator animator;
 
 	private bool left = false;
+	private bool arrivedEmpty = false;
 
 	public int offloadCount;
 
@@ -17,11 +18,15 @@ public class OffloadBoxController : MonoBehaviour {
 	}
 
 	public void ArrivedAtStation(int amountToOffload){
-		offloadCount = amountToOffload;
-		UpdateText ();
-		gameObject.SetActive (true);
-		animator.Play ("Screen Drop Top");
-		left = false;
+		if (amountToOffload > 0) {
+			offloadCount = amountToOffload;
+			UpdateText ();
+			gameObject.SetActive (true);
+			animator.Play ("Screen Drop Top");
+			left = false;
+		} else {
+			arrivedEmpty = true;
+		}
 	}
 
 	public void PassengerDisembark(){
@@ -41,7 +46,9 @@ public class OffloadBoxController : MonoBehaviour {
 	}
 
 	public void LeftStation(){
-		animator.Play ("Screen Up Top");
+		if (!arrivedEmpty) {
+			animator.Play ("Screen Up Top");
+		}
 		left = true;
 	}
 
