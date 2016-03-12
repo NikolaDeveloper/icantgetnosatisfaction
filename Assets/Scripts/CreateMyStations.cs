@@ -12,8 +12,6 @@ public class CreateMyStations : MonoBehaviour {
 
     void Start()
     {
-        
-
         int sLen = Random.Range(4, 8);
         for (int i = 0; i < sLen; i++)
         {
