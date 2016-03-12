@@ -48,11 +48,13 @@ MonoBehaviour:
   woodObsTile: {fileID: 172230, guid: e46fca6e1972c8b43bdda6c269a067a8, type: 2}
   startGapTile: {fileID: 137438, guid: d1bb6dcf45d7d1245957d6ccca36bd69, type: 2}
   endGapTile: {fileID: 146650, guid: eb9a63b3be2f7df47876dc6b102c9639, type: 2}
-  decoRock1: {fileID: 0}
-  decoRock2: {fileID: 0}
-  decoTree1: {fileID: 0}
-  decoTree2: {fileID: 0}
-  decoTree3: {fileID: 0}
+  decoRock1: {fileID: 181118, guid: e6b8a097e5034da4b9277bc665c13166, type: 2}
+  decoRock2: {fileID: 185934, guid: fb2f19a8d1039a94fbc60efe39ebf0de, type: 2}
+  decoTree1: {fileID: 123344, guid: 21f5c8f08ebb33b4db4df0cb0df95d7b, type: 2}
+  decoTree2: {fileID: 193144, guid: 622fc633cf0194b48bf363da95d3f56a, type: 2}
+  decoTree3: {fileID: 107460, guid: 0ff7519b5f704fa4c81cc0364120ec49, type: 2}
+  decoTree4: {fileID: 120170, guid: 895eb0b31b032bc4aa9ff1e9b8ef0755, type: 2}
+  decoTree5: {fileID: 127392, guid: 14ef2ba413de4e74683b5fd176a760b2, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
