@@ -39,6 +39,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74d707e31365b8a47bc590c511e89154, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  staionStripePrefab: {fileID: 126860, guid: 1bf82bea8fc0e1e469a4f608dd9c9d09, type: 2}
+  stationStripeWithWindowPrefab: {fileID: 183464, guid: a2232ac92f9696541ac1bf1b37290058,
+    type: 2}
+  stationContainerPrefab: {fileID: 184632, guid: d3089402dbed30c4aaf409391098579a,
+    type: 2}
   trackTile: {fileID: 107144, guid: f2f444d03b3f4e249b53bf2a34e49dae, type: 2}
   woodObsTile: {fileID: 172230, guid: e46fca6e1972c8b43bdda6c269a067a8, type: 2}
   startGapTile: {fileID: 137438, guid: d1bb6dcf45d7d1245957d6ccca36bd69, type: 2}

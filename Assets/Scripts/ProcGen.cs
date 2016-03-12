@@ -6,20 +6,46 @@ public class ProcGen : MonoBehaviour {
 
     public static ProcGen Instance;
 
-    // prefabs
-    public GameObject trackTile, woodObsTile, startGapTile, endGapTile, gapTile;
+    // station prefabs
+    public GameObject staionStripePrefab, stationStripeWithWindowPrefab, stationContainerPrefab;
+
+    internal List<Station> AllStations;
+
+    internal class Station
+    {
+        internal string name;
+        internal float arrivalTime;
+        internal float distanceFromOrigin;
+
+        internal Station(string n, float t, float d)
+        {
+            name = n;
+            arrivalTime = t;
+            distanceFromOrigin = d;
+        }
+    };
+
+    int closeStationUnits = 60;
+    int farStationUnits = 120;
+    int veryFarStationUnits = 240;
+
+    // prefabs for track tiles
+    public GameObject trackTile, woodObsTile, startGapTile, endGapTile/*, gapTile*/;
+    // prefabs for decorations
     public GameObject decoRock1, decoRock2, decoTree1, decoTree2, decoTree3;
     
     float topTrackYPos = 75f;
     float midTrackYPos = 0f;
     float botTrackYPos = -75f;
 
+    float stationYPos = 125f;
+
     float trackDistanceTotal = 6000f;
 
     internal enum ElementType { WoodObs, Gap, Track };
     int numOfElements = 3;
 
-    float oneUnit = 50f;
+    internal float oneUnit = 50f;
 
     Dictionary<ElementType, GameObject> AllElementsPrefabs;
 
@@ -44,9 +70,25 @@ public class ProcGen : MonoBehaviour {
     {
         Instance = this;
     }
-
+    
     void Start()
     {
+        AllStations = new List<Station>(7);
+        float nextStationPos = 0f;
+        AllStations.Add(new Station("CHI", 0f, nextStationPos));
+        nextStationPos += veryFarStationUnits * oneUnit;
+        AllStations.Add(new Station("DEN", 90f, nextStationPos));
+        nextStationPos += closeStationUnits * oneUnit;
+        AllStations.Add(new Station("WIP", 120f, nextStationPos));
+        nextStationPos += farStationUnits * oneUnit;
+        AllStations.Add(new Station("GSC", 180f, nextStationPos));
+        nextStationPos += veryFarStationUnits * oneUnit;
+        AllStations.Add(new Station("SLC", 270f, nextStationPos));
+        nextStationPos += farStationUnits * oneUnit;
+        AllStations.Add(new Station("SAC", 330f, nextStationPos));
+        nextStationPos += closeStationUnits * oneUnit;
+        AllStations.Add(new Station("EMY", 360f, nextStationPos));
+
         AllElements = new List<ElementType>(numOfElements);
         AllElements.Add(ElementType.WoodObs);
         AllElements.Add(ElementType.Gap);
@@ -57,9 +99,21 @@ public class ProcGen : MonoBehaviour {
         AllElementsPrefabs[ElementType.Gap] = startGapTile;
         AllElementsPrefabs[ElementType.Track] = trackTile;
 
+        CreateStations();
         Generate();
         CreateLevel();
     }
+
+    // Stations
+
+    void CreateStations()
+    {
+        foreach (Station s in AllStations)
+        {
+            GameObject station = Instantiate(stationContainerPrefab, new Vector2(s.distanceFromOrigin, stationYPos), Quaternion.identity) as GameObject;
+        }
+    }
+
 
     float AddTracksToAllLanes(float xPos, int n)
     {
@@ -296,49 +350,78 @@ public class ProcGen : MonoBehaviour {
         float chanceOneLaneFree = 0.6f;
 
         // start making the level
-
-        trackDistanceSoFar = AddTracksToAllLanes(trackDistanceSoFar, 5);
-
-        // safety against bugs with endless loop
-        int safetyCounter = 0;
         
-        while (trackDistanceSoFar < trackDistanceTotal)
+        for (int stationNum = 1; stationNum < AllStations.Count; stationNum++)
         {
+            float desiredTrackDistanceUntilNext = AllStations[stationNum].distanceFromOrigin - 13 * oneUnit;
+
+            // create a station track bit
+            trackDistanceSoFar = AddTracksToAllLanes(trackDistanceSoFar, 8);
+            
+            Debug.Log("Creating station " + AllStations[stationNum].name);
+            Debug.Log("Station at " + AllStations[stationNum].distanceFromOrigin);
+
             // safety against bugs with endless loop
-            safetyCounter++;
-            if (safetyCounter > 1000)
+            int safetyCounter = 0;
+
+            while (trackDistanceSoFar < desiredTrackDistanceUntilNext - 8 * oneUnit)
             {
-                Debug.Log("WARNING! Endless Loop Safety Counter Ended!");
-                break;
+                // safety against bugs with endless loop
+                safetyCounter++;
+                if (safetyCounter > 1000)
+                {
+                    Debug.Log("WARNING! Endless Loop Safety Counter Ended!");
+                    break;
+                }
+
+                float v = Random.value;
+                // if we have all lanes open
+                if (v <= chanceAllLanesFree)
+                {
+                    trackDistanceSoFar = AddTracksToAllLanes(trackDistanceSoFar, 1);
+                }
+                // if we have two open lanes and one obstacle
+                else if (v <= chanceAllLanesFree + chanceTwoLanesFree)
+                {
+                    // choose the blocked lane
+                    int lane = Random.Range(0, 2);
+
+                    trackDistanceSoFar = AddOneObstacleTwoTracks(trackDistanceSoFar, lane);
+                }
+                // if we have one open lane and two obstacles
+                else if (v <= chanceAllLanesFree + chanceTwoLanesFree + chanceOneLaneFree)
+                {
+                    // choose the empty lane
+                    int lane = Random.Range(0, 2);
+
+                    trackDistanceSoFar = AddTwoObstaclesOneTrack(trackDistanceSoFar, lane);
+                }
+
+                if (desiredTrackDistanceUntilNext - trackDistanceSoFar >= oneUnit * 4)
+                {
+                    //trackDistanceSoFar = AddTracksToAllLanes(trackDistanceSoFar, 4);
+                }
+                // train is 3 times longer than the obstacles, so add space
+                trackDistanceSoFar = AddTracksToAllLanes(trackDistanceSoFar, 4);
             }
 
-            float v = Random.value;
-            // if we have all lanes open
-            if (v <= chanceAllLanesFree)
+            // add space before station
+            if (AllStations[stationNum].distanceFromOrigin - trackDistanceSoFar <= 5 * oneUnit)
             {
-                trackDistanceSoFar = AddTracksToAllLanes(trackDistanceSoFar, 1);
+                trackDistanceSoFar = AddTracksToAllLanes(trackDistanceSoFar, 5);
             }
-            // if we have two open lanes and one obstacle
-            else if (v <= chanceAllLanesFree + chanceTwoLanesFree)
+            else
             {
-                // choose the blocked lane
-                int lane = Random.Range(0, 2);
-
-                trackDistanceSoFar = AddOneObstacleTwoTracks(trackDistanceSoFar, lane);
+                trackDistanceSoFar = AddTracksToAllLanes(trackDistanceSoFar, (int)((AllStations[stationNum].distanceFromOrigin - trackDistanceSoFar) / oneUnit));
             }
-            // if we have one open lane and two obstacles
-            else if (v <= chanceAllLanesFree + chanceTwoLanesFree + chanceOneLaneFree)
-            {
-                // choose the empty lane
-                int lane = Random.Range(0, 2);
-
-                trackDistanceSoFar = AddTwoObstaclesOneTrack(trackDistanceSoFar, lane);
-            }
-
-            // train is 3 times longer than the obstacles, so add space
-            trackDistanceSoFar = AddTracksToAllLanes(trackDistanceSoFar, 5);
+            Debug.Log("While ran " + safetyCounter + " times.");
+            Debug.Log("trackDistanceSoFar = " + trackDistanceSoFar);
         }
-        Debug.Log("While ran " + safetyCounter + " times.");
+
+        // add final strip of tracks at game end
+        trackDistanceSoFar = AddTracksToAllLanes(trackDistanceSoFar, 10);
+
+        Debug.Log("trackDistanceSoFar FINAL = " + trackDistanceSoFar);
     }
 
     void CreateLevel()
