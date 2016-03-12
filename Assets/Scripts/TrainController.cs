@@ -179,6 +179,7 @@ public class TrainController : MonoBehaviour {
 		// Allow user to hit space once instead of requiring them to hold it down
 		if (Input.GetKey("space") || isEmergencyStopping) {
 			isEmergencyStopping = true;
+
 			currentDeceleration = -(5 * throttleIncrement);
 			throttleSpeed = throttleSpeed + currentDeceleration;
 		}
@@ -212,9 +213,16 @@ public class TrainController : MonoBehaviour {
 		}
 
 		if (throttleSpeed < 0f) {
+			isEmergencyStopping = false;
 			throttleSpeed = 0f;
 		} else if (throttleSpeed > 10f) {
 			throttleSpeed = 10f;
+		}
+
+		Debug.Log (Time.frameCount);
+
+		if (isEmergencyStopping && (Time.frameCount % 10) == 0) {
+			PlayerStats.GetInstance().satisfaction -= Mathf.CeilToInt(20f * (Time.deltaTime));
 		}
 
 		transform.position += new Vector3(throttleSpeed, 0f, 0f);
