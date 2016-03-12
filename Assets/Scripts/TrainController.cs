@@ -109,6 +109,9 @@ public class TrainController : MonoBehaviour {
 			// Get new passengers from the station
 			int newPassengers = StationsController.Instance.embarkPassenger();
 			PlayerStats.GetInstance().playerMoney += (10 * newPassengers);
+			if (newPassengers > 0) {
+				UIManager.instance.moneyBox.GainFare ();
+			}
 			passengerFull += newPassengers;
 
 			// Two seconds between passengers disembarking
