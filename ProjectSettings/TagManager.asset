@@ -6,6 +6,7 @@ TagManager:
   tags:
   - block
   - wood
+  - station
   layers:
   - Default
   - TransparentFX
@@ -51,6 +52,9 @@ TagManager:
     locked: 0
   - name: Elements
     uniqueID: 1507825199
+    locked: 0
+  - name: Stations
+    uniqueID: 1119299767
     locked: 0
   - name: Train
     uniqueID: 392791171
