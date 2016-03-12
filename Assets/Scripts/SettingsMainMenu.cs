@@ -24,19 +24,19 @@ public class SettingsMainMenu : MonoBehaviour {
         trainName = PlayerPrefs.GetString("SatisfactionSettings_trainName", "");
     }
 
-    void SetDifficultyLevel(int setDiffLevel)
+    public void SetDifficultyLevel(int setDiffLevel)
     {
         gameDifficultyLevel = setDiffLevel;
         PlayerPrefs.SetInt("SatisfactionSettings_gameDifficultyLevel", gameDifficultyLevel);
     }
 
-    void SetTrainName(string name)
+    public void SetTrainName(string name)
     {
         trainName = name;
         PlayerPrefs.SetString("SatisfactionSettings_trainName", trainName);
     }
 
-    void SetTrainColor(Color main, Color stripe, Color windows)
+    public void SetTrainColor(Color main, Color stripe, Color windows)
     {
         mainCol = main;
         stripeCol = stripe;
