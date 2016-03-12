@@ -195,7 +195,6 @@ public class ProcGen : MonoBehaviour {
         }
     }
 
-
     float AddTracksToAllLanes(float xPos, int n)
     {
         for (int i = 0; i < n; i++)
@@ -340,13 +339,13 @@ public class ProcGen : MonoBehaviour {
             }
 
             // add more to second obs lane if needed
-            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 2; i++)
+            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 1; i++)
             {
                 botTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
 
             // add more to first obs lane if needed
-            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 2; i++)
+            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 1; i++)
             {
                 midTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
                 Debug.Log("### ### ### ### ### nextXPos = " + newXPos1 + " ### ### ### ### ###");
@@ -374,13 +373,13 @@ public class ProcGen : MonoBehaviour {
             }
 
             // add more to second obs lane if needed
-            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 2; i++)
+            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 1; i++)
             {
                 botTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
 
             // add more to first obs lane if needed
-            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 2; i++)
+            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 1; i++)
             {
                 topTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
@@ -405,13 +404,13 @@ public class ProcGen : MonoBehaviour {
             }
 
             // add more to second obs lane if needed
-            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 2; i++)
+            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 1; i++)
             {
                 midTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
 
             // add more to first obs lane if needed
-            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 2; i++)
+            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 1; i++)
             {
                 topTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
@@ -433,7 +432,9 @@ public class ProcGen : MonoBehaviour {
         float chanceOneLaneFree = 0.6f;
 
         // start making the level
-        
+
+        AddTracksToAllLanes(-10f * oneUnit, 10);
+
         for (int stationNum = 1; stationNum < AllStations.Count; stationNum++)
         {
             float desiredTrackDistanceUntilNext = AllStations[stationNum].distanceFromOrigin - 13 * oneUnit;
