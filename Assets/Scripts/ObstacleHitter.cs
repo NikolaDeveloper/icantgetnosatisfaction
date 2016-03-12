@@ -1,26 +1,65 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ObstacleHitter : MonoBehaviour {
 
     TrainController tc;
 
+    SpriteRenderer main, stripe, windows;
+
+    Color savedColor, flashColor, savedColorStripe, flashColorStripe, savedColorWindows, flashColorWindows;
+
     void Start()
     {
         tc = gameObject.GetComponent<TrainController>();
+
+        main = gameObject.GetComponent<SpriteRenderer>();
+        stripe = gameObject.GetComponentsInChildren<SpriteRenderer>()[0];
+        windows = gameObject.GetComponentsInChildren<SpriteRenderer>()[1];
+
+        savedColor = main.color;
+        flashColor = new Color(1 - savedColor.r, 1 - savedColor.g, 1 - savedColor.b, 0.7f);
+        savedColorStripe = stripe.color;
+        flashColorStripe = new Color(1 - savedColorStripe.r, 1 - savedColorStripe.g, 1 - savedColorStripe.b, 0.7f);
+        savedColorWindows = windows.color;
+        flashColorWindows = new Color(1 - savedColorWindows.r, 1 - savedColorWindows.g, 1 - savedColorWindows.b, 0.7f);
+    }
+
+    IEnumerator ColorFlash()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            main.color = savedColor;
+            stripe.color = savedColorStripe;
+            windows.color = savedColorWindows;
+            yield return new WaitForSeconds(0.1f);
+            main.color = flashColor;
+            stripe.color = flashColorStripe;
+            windows.color = flashColorWindows;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        // restore original color
+        main.color = savedColor;
+        stripe.color = savedColorStripe;
+        windows.color = savedColorWindows;
     }
 
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.tag == "block" || col.tag == "wood")
         {
-			PlayerStats.GetInstance ().satisfaction -= 5;
-            // slow down
+            // satisfaction hit
+            PlayerStats.GetInstance ().satisfaction -= 5;
 
+            // flash
+            StartCoroutine(ColorFlash());
+
+            // slow down
             tc.throttleSpeed *= 0.5f;
 
             // find free lane
-
             bool topLaneIsFree = true;
             bool midLaneIsFree = true;
             bool botLaneIsFree = true;
