@@ -78,7 +78,7 @@ public class ProcGen : MonoBehaviour {
         AllStations = new List<Station>(7);
         float nextStationPos = 0f;
         AllStations.Add(new Station("CHI", 1, 0f, nextStationPos));
-        nextStationPos += veryFarStationUnits * oneUnit;
+		nextStationPos += closeStationUnits * oneUnit;
         AllStations.Add(new Station("DEN", 2, 90f, nextStationPos));
         nextStationPos += closeStationUnits * oneUnit;
         AllStations.Add(new Station("WIP", 3, 120f, nextStationPos));

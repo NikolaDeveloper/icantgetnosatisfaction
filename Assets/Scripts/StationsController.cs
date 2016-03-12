@@ -9,7 +9,7 @@ public class StationsController : MonoBehaviour {
 	private float lastEmbarkmentTime = 0;
 	private int passengersToEmbark = 0;
 
-	private float timeBetweenEmbarkments = 0.5f;
+	private float timeBetweenEmbarkments = 1f;
 
 	void Awake () {
 		Instance = this;
@@ -37,6 +37,7 @@ public class StationsController : MonoBehaviour {
 		//Debug.Log("Arriving Station");
 		//Debug.Log(passengersToDisembark);
 		this.passengersToEmbark = totalPassengers / 10;
+		Debug.Log (totalPassengers);
 		this.totalPassengers -= this.passengersToEmbark;
 		this.lastEmbarkmentTime = Time.realtimeSinceStartup;
 		UIManager.instance.offloadBox.ArrivedAtStation(passengersToDisembark);
@@ -59,7 +60,6 @@ public class StationsController : MonoBehaviour {
 		if (currentTime - lastEmbarkmentTime > timeBetweenEmbarkments && this.passengersToEmbark > 0) {
 			lastEmbarkmentTime = currentTime;
 			passengersToEmbark--;
-			//Debug.Log("Passenger GOT ON");
 			return 1;
 		} else {
 			return 0;
