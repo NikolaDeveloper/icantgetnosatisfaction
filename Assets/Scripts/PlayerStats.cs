@@ -21,6 +21,14 @@ public class PlayerStats {
 		return deadline - (currentTime - gameStartTime);
 	}
 
+	public bool isGameOver () {
+		if (this.getTimeRemaining () < 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public static PlayerStats GetInstance () {
 		
 		if (instance == null) {
