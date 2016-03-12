@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour {
 	public OffloadBoxController offloadBox;
 	public OnloadBoxController onloadBox;
 	public TimerBarController timerBar;
+	public LineProgressController lineProgress;
 
 	public GameCompleteController gameComplete;
 
