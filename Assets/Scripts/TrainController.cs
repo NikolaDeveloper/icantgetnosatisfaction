@@ -123,7 +123,6 @@ public class TrainController : MonoBehaviour {
 			float currentTime = Time.realtimeSinceStartup;
 
 			if (currentStationId > lastStationId) {
-				SoundController.Instance.PlayStopAtStationSound();
 				lastStationId = currentStationId;
 			}
 
@@ -156,12 +155,19 @@ public class TrainController : MonoBehaviour {
 
 			if (wasStoppedAtStation) {
 				wasStoppedAtStation = false;
+				StartCoroutine (playOnDeparture());
 				Debug.Log ("DEPARTING STATION");
 				StationsController.Instance.departStation();
 			}
 
 		}
 
+	}
+
+
+	IEnumerator playOnDeparture () {
+		yield return new WaitForSeconds(1);
+		SoundController.Instance.PlayStopAtStationSound();
 	}
 
 
@@ -191,6 +197,7 @@ public class TrainController : MonoBehaviour {
 		if (Input.GetKey("space") || isEmergencyStopping) {
 
 			if (!isEmergencyStopping) {
+				Debug.Log ("SCREECHING");
 				SoundController.Instance.PlayScreechBrakeSound();
 			}
 
