@@ -10,6 +10,11 @@ public class LineProgressController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+		float current = TrainController.Instance.transform.position.x;
+		float end = ProcGen.Instance.AllStations [ProcGen.Instance.AllStations.Count - 1].distanceFromOrigin;
+
+		progress = Mathf.FloorToInt((current / end) * 100);
 	
 		lineName.text = PlayerStats.GetInstance ().trainLineName;
 		float prog = (float)progress;

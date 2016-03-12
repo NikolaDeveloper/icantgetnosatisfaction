@@ -16,9 +16,36 @@ public class PlayerStats {
 	private float gameStartTime;
 	private float deadline = 300;
 
+	private bool wasGameOver = false;
+	private float currentTime;
+
+	public float getCurrentTime () {
+
+		if (TrainController.Instance.gameOver) {
+
+			if (!wasGameOver) {
+				wasGameOver = true;
+				currentTime = Time.realtimeSinceStartup;
+			}
+
+			return currentTime;
+		} else {
+			return Time.realtimeSinceStartup;
+		}
+
+	}
+
 	public float getTimeRemaining() {
-		float currentTime = Time.realtimeSinceStartup;
-		return deadline - (currentTime - gameStartTime);
+
+		float time = getCurrentTime();
+
+		return deadline - (time - gameStartTime);
+	}
+
+	public float getRemainingPercentage() {
+		float time = getCurrentTime();
+		float percentage = ((time - gameStartTime) / deadline) * 100;
+		return 100 - percentage;
 	}
 
 	public bool isGameOver () {

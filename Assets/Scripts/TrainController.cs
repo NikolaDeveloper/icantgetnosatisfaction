@@ -11,6 +11,8 @@ public class TrainController : MonoBehaviour {
 	public int passengerCapacity = 1000;
 	public int passengerFull = 500;
 
+	public static TrainController Instance;
+
 	public int currentTrack = 1;
 
 	private bool isEmergencyStopping = false;
@@ -29,6 +31,14 @@ public class TrainController : MonoBehaviour {
 	public SpriteRenderer mainTrain;
 	public SpriteRenderer line;
 	public SpriteRenderer windows;
+
+	public bool gameOver = false;
+
+
+	void Awake () {
+		Instance = this;
+	}
+
 
 	// Use this for initialization
 	void Start () {
@@ -54,6 +64,7 @@ public class TrainController : MonoBehaviour {
 	void checkGameOverConditions () {
 
 		if (PlayerStats.GetInstance ().isGameOver()) {
+			gameOver = true;
 			UIManager.instance.GameOverTime ();
 		}
 
@@ -67,13 +78,18 @@ public class TrainController : MonoBehaviour {
 
 			if (stationId == 7) {
 				finalStation = true;
+				gameOver = true;
+				Debug.Log ("Triggering game over");
 				UIManager.instance.CompleteGame();
 			}
 
 			if (stationId != 1) {
 				isStoppedAtStation = true;
+				lastDisembarkment = Time.realtimeSinceStartup;;
+				passengersToDisembark = Mathf.FloorToInt(passengerFull / 10);
+				StationsController.Instance.calculatePassengerNumbers();
 			}
-			currentStationId++;
+			currentStationId = stationId;
 		}
 	}
 
@@ -89,14 +105,16 @@ public class TrainController : MonoBehaviour {
 
 	private void passengerEmbarkment () {
 
+		if (gameOver) {
+			return;
+		}
+
 		if (isStoppedAtStation && throttleSpeed == 0f) {
 
 			float currentTime = Time.realtimeSinceStartup;
 
 			if (currentStationId > lastStationId) {
 				lastStationId = currentStationId;
-				lastDisembarkment = currentTime;
-				passengersToDisembark = Mathf.FloorToInt(passengerFull / 10);
 			}
 
 			if (!wasStoppedAtStation) {
@@ -134,6 +152,10 @@ public class TrainController : MonoBehaviour {
 
 
 	private void moveTrain () {
+
+		if (gameOver) {
+			return;
+		}
 
 		CameraController cameraController = Camera.main.GetComponent<CameraController>();
 
@@ -188,6 +210,8 @@ public class TrainController : MonoBehaviour {
 
 		if (throttleSpeed < 0f) {
 			throttleSpeed = 0f;
+		} else if (throttleSpeed > 10f) {
+			throttleSpeed = 10f;
 		}
 
 		transform.position += new Vector3(throttleSpeed, 0f, 0f);
@@ -196,6 +220,7 @@ public class TrainController : MonoBehaviour {
 
 		if (throttleSpeed > 0f) {
 			cameraController.moveCameraBasedOnTrainPos(currentX, throttleSpeed / throttleIncrement);
+			//cameraController.moveCameraBasedOnTrainSpeed(currentX, throttleSpeed);
 		}
 
 		if (Camera.main.transform.position.x > currentX + 500f) {

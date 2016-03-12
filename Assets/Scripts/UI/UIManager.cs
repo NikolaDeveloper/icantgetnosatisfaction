@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (PlayerStats.GetInstance ().satisfaction <= 0) {
+			TrainController.Instance.gameOver = true;
 			gameOver.SetActive (true);
 		}
 	}

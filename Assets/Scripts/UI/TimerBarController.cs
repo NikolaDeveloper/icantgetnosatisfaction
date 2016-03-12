@@ -13,6 +13,9 @@ public class TimerBarController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		value = Mathf.FloorToInt(PlayerStats.GetInstance().getRemainingPercentage());
+		timeLeft = Mathf.FloorToInt(PlayerStats.GetInstance().getTimeRemaining());
 	
 		float progVal = (float)value;
 		barFill.transform.localScale = new Vector3 (progVal / 100, 1);
