@@ -44,6 +44,9 @@ public class TrainController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		//Debug.Log (PlayerStats.GetInstance ().satisfaction);
+
 		passengerEmbarkment();
 		moveTrain();
 	}
@@ -52,7 +55,7 @@ public class TrainController : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D col) {
 		if (col.tag == "station") {
 
-			if (col.gameObject.GetComponent<CreateMyStations> ().id == 7) {
+			if (col.gameObject.GetComponent<CreateMyStations>().id == 7) {
 				finalStation = true;
 				Debug.Log("END GAME OMG");
 			}
@@ -66,7 +69,11 @@ public class TrainController : MonoBehaviour {
 	void OnTriggerExit2D(Collider2D col) {
 		if (col.tag == "station") {
 			isStoppedAtStation = false;
-			int remaingPassengers = StationsController.Instance.getRemainingPassengers();
+
+			Debug.Log (passengersToDisembark);
+
+			PlayerStats.GetInstance().satisfaction -= (passengersToDisembark * 1);
+			Debug.Log (PlayerStats.GetInstance().satisfaction);
 		}
 	}
 
@@ -74,6 +81,11 @@ public class TrainController : MonoBehaviour {
 	private void passengerEmbarkment () {
 
 		if (isStoppedAtStation && throttleSpeed == 0f) {
+
+			if (!wasStoppedAtStation) {
+				StationsController.Instance.arriveAtStation(passengersToDisembark);
+			}
+
 			wasStoppedAtStation = true;
 
 			float currentTime = Time.realtimeSinceStartup;
@@ -84,10 +96,10 @@ public class TrainController : MonoBehaviour {
 				passengersToDisembark = Mathf.FloorToInt(passengerFull / 10);
 			}
 
-			StationsController.Instance.arriveAtStation(passengersToDisembark);
-
 			// Get new passengers from the station
-			passengerFull += StationsController.Instance.embarkPassenger();
+			int newPassengers = StationsController.Instance.embarkPassenger();
+			PlayerStats.GetInstance().playerMoney += (10 * newPassengers);
+			passengerFull += newPassengers;
 
 			// Two seconds between passengers disembarking
 			if ((currentTime - lastDisembarkment > 0.2f) && passengersToDisembark > 0) {

@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour {
 	public OffloadBoxController offloadBox;
 	public OnloadBoxController onloadBox;
 
+	public GameCompleteController gameComplete;
+
 
 	// Use this for initialization
 	void Start () {
@@ -27,5 +29,13 @@ public class UIManager : MonoBehaviour {
 		if (PlayerStats.GetInstance ().satisfaction <= 0) {
 			gameOver.SetActive (true);
 		}
+	}
+
+	public void GameOverTime(){
+		gameOver.SetActive (true);
+	}
+
+	public void CompleteGame(){
+		gameComplete.gameObject.SetActive (true);
 	}
 }
