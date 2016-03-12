@@ -28,4 +28,8 @@ public class UIManager : MonoBehaviour {
 			gameOver.SetActive (true);
 		}
 	}
+
+	public void GameOverTime(){
+		gameOver.SetActive (true);
+	}
 }
