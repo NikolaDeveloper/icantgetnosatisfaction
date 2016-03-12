@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour {
 	public OffloadBoxController offloadBox;
 	public OnloadBoxController onloadBox;
 	public TimerBarController timerBar;
+	public LineProgressController lineProgress;
+	public MoneyBoxController moneyBox;
 
 	public GameCompleteController gameComplete;
 
@@ -28,6 +30,7 @@ public class UIManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (PlayerStats.GetInstance ().satisfaction <= 0) {
+			TrainController.Instance.gameOver = true;
 			gameOver.SetActive (true);
 		}
 	}

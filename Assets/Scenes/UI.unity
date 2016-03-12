@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f3c5df99fb994ea39139bf720417ab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1555844953
+--- !u!1001 &325729620
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -261,6 +261,14 @@ Prefab:
     - target: {fileID: 22460176, guid: 48dde00c1b93f40858897dc1cf62ff44, type: 2}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22486404, guid: 48dde00c1b93f40858897dc1cf62ff44, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22423068, guid: 48dde00c1b93f40858897dc1cf62ff44, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 48dde00c1b93f40858897dc1cf62ff44, type: 2}
