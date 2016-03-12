@@ -3,8 +3,17 @@ using System.Collections;
 
 public class CreateMyStations : MonoBehaviour {
 
+    public int id;
+
+    public void setId(int sid)
+    {
+        id = sid;
+    }
+
     void Start()
     {
+        
+
         int sLen = Random.Range(4, 8);
         for (int i = 0; i < sLen; i++)
         {

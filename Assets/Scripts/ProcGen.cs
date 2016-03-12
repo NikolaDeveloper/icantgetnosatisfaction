@@ -14,12 +14,14 @@ public class ProcGen : MonoBehaviour {
     internal class Station
     {
         internal string name;
+        internal int id;
         internal float arrivalTime;
         internal float distanceFromOrigin;
 
-        internal Station(string n, float t, float d)
+        internal Station(string n, int i, float t, float d)
         {
             name = n;
+            id = i;
             arrivalTime = t;
             distanceFromOrigin = d;
         }
@@ -75,19 +77,19 @@ public class ProcGen : MonoBehaviour {
     {
         AllStations = new List<Station>(7);
         float nextStationPos = 0f;
-        AllStations.Add(new Station("CHI", 0f, nextStationPos));
+        AllStations.Add(new Station("CHI", 1, 0f, nextStationPos));
         nextStationPos += veryFarStationUnits * oneUnit;
-        AllStations.Add(new Station("DEN", 90f, nextStationPos));
+        AllStations.Add(new Station("DEN", 2, 90f, nextStationPos));
         nextStationPos += closeStationUnits * oneUnit;
-        AllStations.Add(new Station("WIP", 120f, nextStationPos));
+        AllStations.Add(new Station("WIP", 3, 120f, nextStationPos));
         nextStationPos += farStationUnits * oneUnit;
-        AllStations.Add(new Station("GSC", 180f, nextStationPos));
+        AllStations.Add(new Station("GSC", 4, 180f, nextStationPos));
         nextStationPos += veryFarStationUnits * oneUnit;
-        AllStations.Add(new Station("SLC", 270f, nextStationPos));
+        AllStations.Add(new Station("SLC", 5, 270f, nextStationPos));
         nextStationPos += farStationUnits * oneUnit;
-        AllStations.Add(new Station("SAC", 330f, nextStationPos));
+        AllStations.Add(new Station("SAC", 6, 330f, nextStationPos));
         nextStationPos += closeStationUnits * oneUnit;
-        AllStations.Add(new Station("EMY", 360f, nextStationPos));
+        AllStations.Add(new Station("EMY", 7, 360f, nextStationPos));
 
         AllElements = new List<ElementType>(numOfElements);
         AllElements.Add(ElementType.WoodObs);
@@ -111,6 +113,7 @@ public class ProcGen : MonoBehaviour {
         foreach (Station s in AllStations)
         {
             GameObject station = Instantiate(stationContainerPrefab, new Vector2(s.distanceFromOrigin, stationYPos), Quaternion.identity) as GameObject;
+            station.GetComponent<CreateMyStations>().setId(s.id);
         }
     }
 
