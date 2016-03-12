@@ -56,6 +56,16 @@ public class PlayerStats {
 		}
 	}
 
+    public PlayerStats()
+    {
+        mainColor = SettingsMainMenu.Instance.mainCol;
+        secondaryColor = SettingsMainMenu.Instance.stripeCol;
+        secondaryColor = SettingsMainMenu.Instance.windowsCol;
+        trainLineName = SettingsMainMenu.Instance.trainName;
+
+        deadline = SettingsMainMenu.Instance.DiffLevels[SettingsMainMenu.Instance.gameDifficultyLevel].deadline;
+    }
+
 	public static PlayerStats GetInstance () {
 		
 		if (instance == null) {

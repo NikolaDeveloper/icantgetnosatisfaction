@@ -26,7 +26,20 @@ public class ColourPickerController : MonoBehaviour {
 		colorViewImage.color = new Color (redSlider.value, greenSlider.value, blueSlider.value);
 
 		colourSprites [spriteToChange].color = colorViewImage.color;
-	}
+
+        if (spriteToChange == 0)
+        {
+            SettingsMainMenu.Instance.SetTrainMainColor(colorViewImage.color);
+        }
+        else if (spriteToChange == 1)
+        {
+            SettingsMainMenu.Instance.SetTrainStripeColor(colorViewImage.color);
+        }
+        else if (spriteToChange == 2)
+        {
+            SettingsMainMenu.Instance.SetTrainWindowsColor(colorViewImage.color);
+        }
+    }
 
 	public void changeSelectedSprite(int number){
 		spriteToChange = number;
