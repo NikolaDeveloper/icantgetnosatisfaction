@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour {
 	public OnloadBoxController onloadBox;
 	public TimerBarController timerBar;
 	public LineProgressController lineProgress;
+	public MoneyBoxController moneyBox;
 
 	public GameCompleteController gameComplete;
 
