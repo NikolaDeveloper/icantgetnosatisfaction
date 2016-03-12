@@ -49,21 +49,21 @@ public class SoundController : MonoBehaviour {
 
     public void PlayScreechBrakeSound()
     {
-        gameObject.GetComponents<AudioSource>()[2].PlayOneShot(screechBrake, sfvol);
+        gameObject.GetComponents<AudioSource>()[2].PlayOneShot(screechBrake, sfvol * 1.2f);
     }
 
     public void PlayMoneyGainSound()
     {
-        gameObject.GetComponents<AudioSource>()[2].PlayOneShot(moneyGainClip, sfvol);
+        gameObject.GetComponents<AudioSource>()[2].PlayOneShot(moneyGainClip, sfvol * 0.7f);
     }
 
     public void PlayObstacleHitSound()
     {
-        gameObject.GetComponents<AudioSource>()[2].PlayOneShot(hitObstacleClip, sfvol);
+        gameObject.GetComponents<AudioSource>()[2].PlayOneShot(hitObstacleClip, sfvol * 0.9f);
     }
 
     public void PlayStopAtStationSound()
     {
-        gameObject.GetComponents<AudioSource>()[2].PlayOneShot(stopStationClip, sfvol);
+        gameObject.GetComponents<AudioSource>()[2].PlayOneShot(stopStationClip, sfvol * 1.3f);
     }
 }
