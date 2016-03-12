@@ -26,7 +26,7 @@ public class TrainController : MonoBehaviour {
 	private int passengersToDisembark = 0;
 	private float lastDisembarkment = 0;
 
-	private bool finalStation = false;
+	private float wasMoving = false;
 
 	public SpriteRenderer mainTrain;
 	public SpriteRenderer line;
@@ -228,9 +228,15 @@ public class TrainController : MonoBehaviour {
 		}
 
 		if (throttleSpeed <= 0f) {
-			SoundController.Instance.TrainMovingSoundOFF ();
+
+			if (!wasMoving) {
+				wasMoving = true;
+				SoundController.Instance.TrainMovingSoundOFF();
+			}
+
 			isEmergencyStopping = false;
 			throttleSpeed = 0f;
+
 		} else if (throttleSpeed > 10f) {
 			throttleSpeed = 10f;
 		} else {
