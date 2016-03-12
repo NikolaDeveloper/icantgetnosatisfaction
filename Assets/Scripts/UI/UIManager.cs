@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour {
 	public SatisfactionBarController satBar;
 	public CapacityBoxController capacityBox;
 	public OffloadBoxController offloadBox;
+	public OnloadBoxController onloadBox;
 
 
 	// Use this for initialization

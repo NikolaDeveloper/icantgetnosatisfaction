@@ -6,5 +6,6 @@ public class ScreenLoader : MonoBehaviour {
 
 	public void LoadGame(){
 		SceneManager.LoadScene ("Landscape");
+
 	}
 }

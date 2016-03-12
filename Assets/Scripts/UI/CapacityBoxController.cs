@@ -5,7 +5,7 @@ using System.Collections;
 public class CapacityBoxController : MonoBehaviour {
 
 	public Text capacityText;
-	private int maxCapacity;
+	public int maxCapacity;
 	private int currentCapacity;
 
 	// Use this for initialization
