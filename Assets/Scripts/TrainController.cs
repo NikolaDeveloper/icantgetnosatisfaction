@@ -227,14 +227,14 @@ public class TrainController : MonoBehaviour {
 			this.setTrainY(trackPositions[currentTrack]);
 		}
 
-		if (throttleSpeed < 0f) {
-			SoundController.Instance.TrainMovingSoundON ();
+		if (throttleSpeed <= 0f) {
+			SoundController.Instance.TrainMovingSoundOFF ();
 			isEmergencyStopping = false;
 			throttleSpeed = 0f;
 		} else if (throttleSpeed > 10f) {
 			throttleSpeed = 10f;
 		} else {
-			SoundController.Instance.TrainMovingSoundOFF();
+			SoundController.Instance.TrainMovingSoundON();
 		}
 
 		if (isEmergencyStopping && (Time.frameCount % 10) == 0) {
