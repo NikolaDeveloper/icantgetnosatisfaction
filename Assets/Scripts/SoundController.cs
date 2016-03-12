@@ -23,8 +23,8 @@ public class SoundController : MonoBehaviour {
     {
         musicObj = gameObject.GetComponents<AudioSource>()[0];
         trainLoopObj = gameObject.GetComponents<AudioSource>()[1];
-		musicObj.volume = mvol * 0.5f;
-        trainLoopObj.volume = sfvol;
+		musicObj.volume = mvol * 0.2f;
+		trainLoopObj.volume = sfvol;
     }
 
     public void MusicON()
