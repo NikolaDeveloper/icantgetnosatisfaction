@@ -23,8 +23,8 @@ public class SoundController : MonoBehaviour {
     {
         musicObj = gameObject.GetComponents<AudioSource>()[0];
         trainLoopObj = gameObject.GetComponents<AudioSource>()[1];
-		musicObj.volume = mvol * 0.5f;
-        trainLoopObj.volume = sfvol;
+		musicObj.volume = mvol * 0.2f;
+		trainLoopObj.volume = sfvol;
     }
 
     public void MusicON()
@@ -49,21 +49,21 @@ public class SoundController : MonoBehaviour {
 
     public void PlayScreechBrakeSound()
     {
-        gameObject.GetComponent<AudioSource>().PlayOneShot(screechBrake, sfvol);
+        gameObject.GetComponents<AudioSource>()[2].PlayOneShot(screechBrake, sfvol);
     }
 
     public void PlayMoneyGainSound()
     {
-        gameObject.GetComponent<AudioSource>().PlayOneShot(moneyGainClip, sfvol);
+        gameObject.GetComponents<AudioSource>()[2].PlayOneShot(moneyGainClip, sfvol);
     }
 
     public void PlayObstacleHitSound()
     {
-        gameObject.GetComponent<AudioSource>().PlayOneShot(hitObstacleClip, sfvol);
+        gameObject.GetComponents<AudioSource>()[2].PlayOneShot(hitObstacleClip, sfvol);
     }
 
     public void PlayStopAtStationSound()
     {
-        gameObject.GetComponent<AudioSource>().PlayOneShot(stopStationClip, sfvol);
+        gameObject.GetComponents<AudioSource>()[2].PlayOneShot(stopStationClip, sfvol);
     }
 }

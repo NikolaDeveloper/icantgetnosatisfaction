@@ -23,10 +23,12 @@ public class TrainController : MonoBehaviour {
 	private float[] trackPositions;
 	private int currentStationId = 0;
 
+	private bool finalStation = false;
+
 	private int passengersToDisembark = 0;
 	private float lastDisembarkment = 0;
 
-	private bool finalStation = false;
+	private bool wasMoving = false;
 
 	public SpriteRenderer mainTrain;
 	public SpriteRenderer line;
@@ -121,7 +123,6 @@ public class TrainController : MonoBehaviour {
 			float currentTime = Time.realtimeSinceStartup;
 
 			if (currentStationId > lastStationId) {
-				SoundController.Instance.PlayStopAtStationSound();
 				lastStationId = currentStationId;
 			}
 
@@ -154,12 +155,19 @@ public class TrainController : MonoBehaviour {
 
 			if (wasStoppedAtStation) {
 				wasStoppedAtStation = false;
+				StartCoroutine (playOnDeparture());
 				Debug.Log ("DEPARTING STATION");
 				StationsController.Instance.departStation();
 			}
 
 		}
 
+	}
+
+
+	IEnumerator playOnDeparture () {
+		yield return new WaitForSeconds(1);
+		SoundController.Instance.PlayStopAtStationSound();
 	}
 
 
@@ -189,6 +197,7 @@ public class TrainController : MonoBehaviour {
 		if (Input.GetKey("space") || isEmergencyStopping) {
 
 			if (!isEmergencyStopping) {
+				Debug.Log ("SCREECHING");
 				SoundController.Instance.PlayScreechBrakeSound();
 			}
 
@@ -228,13 +237,22 @@ public class TrainController : MonoBehaviour {
 		}
 
 		if (throttleSpeed <= 0f) {
-			SoundController.Instance.TrainMovingSoundOFF ();
+
+			SoundController.Instance.TrainMovingSoundOFF();
+			wasMoving = false;
+
 			isEmergencyStopping = false;
 			throttleSpeed = 0f;
+
 		} else if (throttleSpeed > 10f) {
 			throttleSpeed = 10f;
 		} else {
-			SoundController.Instance.TrainMovingSoundON();
+
+			if (!wasMoving) {
+				wasMoving = true;
+				SoundController.Instance.TrainMovingSoundON();
+			}
+				
 		}
 
 		if (isEmergencyStopping && (Time.frameCount % 10) == 0) {
