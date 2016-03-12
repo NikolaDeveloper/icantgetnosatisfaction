@@ -35,13 +35,11 @@ public class TrainController : MonoBehaviour {
 	public SpriteRenderer windows;
 
 	public bool gameOver = false;
-
-
+    
 	void Awake () {
 		Instance = this;
 	}
-
-
+    
 	// Use this for initialization
 	void Start () {
 		TrainController.passengerFull = StationsController.Instance.getInitialPassengers(TrainController.passengerCapacity, TrainController.passengerFull);
@@ -189,7 +187,7 @@ public class TrainController : MonoBehaviour {
 
 		// Cant decelerate faster than an emergency stop
 		if (Input.GetKey("left") && !isEmergencyStopping) {
-			currentDeceleration = -(2.5f * throttleIncrement);
+			currentDeceleration = -(4f * throttleIncrement);
 			throttleSpeed = throttleSpeed + currentDeceleration;
 		}
 
@@ -203,7 +201,7 @@ public class TrainController : MonoBehaviour {
 
 			isEmergencyStopping = true;
 
-			currentDeceleration = -(5 * throttleIncrement);
+			currentDeceleration = -(8 * throttleIncrement);
 			throttleSpeed = throttleSpeed + currentDeceleration;
 			UIManager.instance.EmergencyStop ();
 		}
@@ -244,8 +242,8 @@ public class TrainController : MonoBehaviour {
 			isEmergencyStopping = false;
 			throttleSpeed = 0f;
 
-		} else if (throttleSpeed > 10f) {
-			throttleSpeed = 10f;
+		} else if (throttleSpeed > 20f) {
+			throttleSpeed = 20f;
 		} else {
 
 			if (!wasMoving) {

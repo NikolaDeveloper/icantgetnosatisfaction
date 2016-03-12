@@ -27,17 +27,17 @@ public class Settings : MonoBehaviour {
         DiffLevels[0].chanceAllLanesFree = 0.2f;
         DiffLevels[0].chanceTwoLanesFree = 0.5f;
         DiffLevels[0].chanceOneLaneFree = 0.3f;
-        DiffLevels[0].deadline = 260f;
+        DiffLevels[2].deadline = 240f;
 
         DiffLevels[1].chanceAllLanesFree = 0.1f;
         DiffLevels[1].chanceTwoLanesFree = 0.3f;
         DiffLevels[1].chanceOneLaneFree = 0.6f;
-        DiffLevels[1].deadline = 240f;
+        DiffLevels[2].deadline = 225f;
 
         DiffLevels[2].chanceAllLanesFree = 0f;
         DiffLevels[2].chanceTwoLanesFree = 0.2f;
         DiffLevels[2].chanceOneLaneFree = 0.8f;
-        DiffLevels[2].deadline = 220f;
+        DiffLevels[2].deadline = 210f;
 
         // Load
 
