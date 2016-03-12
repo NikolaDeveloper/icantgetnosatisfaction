@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour {
 	public CapacityBoxController capacityBox;
 	public OffloadBoxController offloadBox;
 	public OnloadBoxController onloadBox;
+	public TimerBarController timerBar;
 
 	public GameCompleteController gameComplete;
 

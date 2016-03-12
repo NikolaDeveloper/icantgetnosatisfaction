@@ -147,14 +147,14 @@ public class TrainController : MonoBehaviour {
 
 		// Cant decelerate faster than an emergency stop
 		if (Input.GetKey("left") && !isEmergencyStopping) {
-			currentDeceleration = -throttleIncrement;
+			currentDeceleration = -(2 * throttleIncrement);
 			throttleSpeed = throttleSpeed + currentDeceleration;
 		}
 
 		// Allow user to hit space once instead of requiring them to hold it down
 		if (Input.GetKey("space") || isEmergencyStopping) {
 			isEmergencyStopping = true;
-			currentDeceleration = -(3 * throttleIncrement);
+			currentDeceleration = -(5 * throttleIncrement);
 			throttleSpeed = throttleSpeed + currentDeceleration;
 		}
 

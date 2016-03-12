@@ -40,11 +40,13 @@ public class StationsController : MonoBehaviour {
 		this.totalPassengers -= this.passengersToEmbark;
 		this.lastEmbarkmentTime = Time.realtimeSinceStartup;
 		UIManager.instance.offloadBox.ArrivedAtStation(passengersToDisembark);
+		UIManager.instance.onloadBox.ArrivedAtStation(passengersToEmbark);
 	}
 
 	public void departStation () {
 		//Debug.Log("Departing Station");
 		UIManager.instance.offloadBox.LeftStation();
+		UIManager.instance.onloadBox.LeftStation();
 	}
 
 	public void disembarkPassenger () {
@@ -59,6 +61,7 @@ public class StationsController : MonoBehaviour {
 		if (currentTime - lastEmbarkmentTime > timeBetweenEmbarkments && this.passengersToEmbark > 0) {
 			lastEmbarkmentTime = currentTime;
 			passengersToEmbark--;
+			UIManager.instance.onloadBox.PassengerEmbark();
 			return 1;
 		} else {
 			return 0;
