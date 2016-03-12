@@ -17,10 +17,14 @@ public class TrainController : MonoBehaviour {
 	private bool trackDirectionUp = false;
 	private int lastStationId = 0;
 	private bool wasStoppedAtStation = false;
+	private bool isStoppedAtStation = false;
 	private float[] trackPositions;
+	private int currentStationId = 0;
 
 	private int passengersToDisembark = 0;
 	private float lastDisembarkment = 0;
+
+	private bool finalStation = false;
 
 	public SpriteRenderer mainTrain;
 	public SpriteRenderer line;
@@ -40,28 +44,36 @@ public class TrainController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-
-
 		passengerEmbarkment();
 		moveTrain();
+	}
 
+
+	void OnTriggerEnter2D(Collider2D col) {
+		if (col.tag == "station") {
+
+			if (col.gameObject.GetComponent<CreateMyStations> ().id == 7) {
+				finalStation = true;
+				Debug.Log("END GAME OMG");
+			}
+
+			isStoppedAtStation = true;
+			currentStationId++;
+		}
+	}
+
+
+	void OnTriggerExit2D(Collider2D col) {
+		if (col.tag == "station") {
+			isStoppedAtStation = false;
+			int remaingPassengers = StationsController.Instance.getRemainingPassengers();
+		}
 	}
 
 
 	private void passengerEmbarkment () {
 
-		bool isStoppedAtStation = false;
-		int currentStationId = 1;
-
-
-		if (throttleSpeed == 0f) {
-			isStoppedAtStation = true;
-		}
-
-		currentStationId = Mathf.FloorToInt(this.transform.position.x / 500) + 6;
-
-		if (isStoppedAtStation) {
+		if (isStoppedAtStation && throttleSpeed == 0f) {
 			wasStoppedAtStation = true;
 
 			float currentTime = Time.realtimeSinceStartup;
