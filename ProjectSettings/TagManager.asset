@@ -7,6 +7,9 @@ TagManager:
   - block
   - wood
   - station
+  - easyCheck
+  - mediumCheck
+  - hardCheck
   layers:
   - Default
   - TransparentFX

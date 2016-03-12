@@ -1,5 +1,7 @@
 ﻿    using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class SettingsMainMenu : MonoBehaviour {
 
@@ -43,14 +45,33 @@ public class SettingsMainMenu : MonoBehaviour {
         DiffLevels[2].chanceOneLaneFree = 0.8f;
         DiffLevels[2].deadline = 210f;
 
-        //gameDifficultyLevel = PlayerPrefs.GetInt("SatisfactionSettings_gameDifficultyLevel", 1);
-        gameDifficultyLevel = 0;
+        gameDifficultyLevel = PlayerPrefs.GetInt("SatisfactionSettings_gameDifficultyLevel", 1);
 
         mainCol = new Color(PlayerPrefs.GetFloat("SatisfactionSettings_mainR", 1.0f), PlayerPrefs.GetFloat("SatisfactionSettings_mainG", 1.0f), PlayerPrefs.GetFloat("SatisfactionSettings_mainB", 1.0f));
         stripeCol = new Color(PlayerPrefs.GetFloat("SatisfactionSettings_stripeR", 1.0f), PlayerPrefs.GetFloat("SatisfactionSettings_stripeG", 1.0f), PlayerPrefs.GetFloat("SatisfactionSettings_stripeB", 1.0f));
         windowsCol = new Color(PlayerPrefs.GetFloat("SatisfactionSettings_windowsR", 1.0f), PlayerPrefs.GetFloat("SatisfactionSettings_windowsG", 1.0f), PlayerPrefs.GetFloat("SatisfactionSettings_windowsB", 1.0f));
 
         trainName = PlayerPrefs.GetString("SatisfactionSettings_trainName", "");
+    }
+
+    public void SetDifficultyFromLoad()
+    {
+        GameObject easy = GameObject.FindGameObjectWithTag("easyCheck");
+        GameObject medium = GameObject.FindGameObjectWithTag("mediumCheck");
+        GameObject hard = GameObject.FindGameObjectWithTag("hardCheck");
+        
+        if (gameDifficultyLevel == 0)
+        {
+            easy.GetComponent<Toggle>().isOn = true;
+        }
+        else if (gameDifficultyLevel == 1)
+        {
+            medium.GetComponent<Toggle>().isOn = true;
+        }
+        else if (gameDifficultyLevel == 2)
+        {
+            hard.GetComponent<Toggle>().isOn = true;
+        }
     }
 
     public void SetDifficultyEasy()

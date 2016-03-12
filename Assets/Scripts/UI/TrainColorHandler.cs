@@ -10,6 +10,15 @@ public class TrainColorHandler : MonoBehaviour {
 
 	public InputField lineName;
 
+    void Start()
+    {
+        mainTrain.color = SettingsMainMenu.Instance.mainCol;
+        line.color = SettingsMainMenu.Instance.stripeCol;
+        windows.color = SettingsMainMenu.Instance.windowsCol;
+
+        lineName.text = SettingsMainMenu.Instance.trainName;
+    }
+
 	public void SetColors(){
 		PlayerStats.GetInstance ().mainColor = mainTrain.color;
 		PlayerStats.GetInstance ().secondaryColor = line.color;
