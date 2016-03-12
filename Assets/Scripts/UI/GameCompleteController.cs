@@ -21,5 +21,10 @@ public class GameCompleteController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+		scoreText.text = PlayerStats.GetInstance ().playerMoney.ToString ();
+		timerText.text = PlayerStats.GetInstance ().getTimeRemaining ().ToString ();
+		satisfactionText.text = PlayerStats.GetInstance ().satisfaction.ToString ();
+		finalText.text = (PlayerStats.GetInstance ().playerMoney + PlayerStats.GetInstance ().getTimeRemaining () + PlayerStats.GetInstance ().satisfaction).ToString ();
+	
 	}
 }

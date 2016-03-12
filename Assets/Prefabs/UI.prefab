@@ -1772,7 +1772,7 @@ MonoBehaviour:
   capacityBox: {fileID: 11432782}
   offloadBox: {fileID: 11454662}
   onloadBox: {fileID: 11407210}
-  gameComplete: {fileID: 0}
+  gameComplete: {fileID: 11402524}
 --- !u!114 &11458520
 MonoBehaviour:
   m_ObjectHideFlags: 1
