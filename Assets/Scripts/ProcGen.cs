@@ -425,9 +425,9 @@ public class ProcGen : MonoBehaviour {
 
         float trackDistanceSoFar = 0f;
 
-        float chanceAllLanesFree = 0.1f;
-        float chanceTwoLanesFree = 0.3f;
-        float chanceOneLaneFree = 0.6f;
+        float chanceAllLanesFree = Settings.Instance.DiffLevels[Settings.Instance.gameDifficultyLevel].chanceAllLanesFree;
+        float chanceTwoLanesFree = Settings.Instance.DiffLevels[Settings.Instance.gameDifficultyLevel].chanceTwoLanesFree;
+        float chanceOneLaneFree = Settings.Instance.DiffLevels[Settings.Instance.gameDifficultyLevel].chanceOneLaneFree;
 
         // start making the level
 
