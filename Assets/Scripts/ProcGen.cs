@@ -34,7 +34,7 @@ public class ProcGen : MonoBehaviour {
     // prefabs for track tiles
     public GameObject trackTile, woodObsTile, startGapTile, endGapTile/*, gapTile*/;
     // prefabs for decorations
-    public GameObject decoRock1, decoRock2, decoTree1, decoTree2, decoTree3;
+    public GameObject decoRock1, decoRock2, decoTree1, decoTree2, decoTree3, decoTree4, decoTree5;
     
     float topTrackYPos = 75f;
     float midTrackYPos = 0f;
@@ -42,16 +42,28 @@ public class ProcGen : MonoBehaviour {
 
     float stationYPos = 125f;
 
+    float decoAboveYPosMin = 200f;
+    float decoAboveYPosMax = 300f;
+    float decoBelowYPosMin = -300f;
+    float decoBelowYPosMax = -200f;
+
     float trackDistanceTotal = 6000f;
 
     internal enum ElementType { WoodObs, Gap, Track };
     int numOfElements = 3;
 
+    internal enum DecoType { Rock1, Rock2, Rock3, Rock4, Tree1, Tree2, Tree3, Tree4, Tree5, None };
+    int numOfDecos = 10;
+
     internal float oneUnit = 50f;
 
     Dictionary<ElementType, GameObject> AllElementsPrefabs;
 
+    Dictionary<DecoType, GameObject> AllDecoPrefabs;
+
     List<ElementType> AllElements;
+
+    List<DecoType> AllDecos;
 
     internal class Element
     {
@@ -96,14 +108,80 @@ public class ProcGen : MonoBehaviour {
         AllElements.Add(ElementType.Gap);
         AllElements.Add(ElementType.Track);
 
+        AllDecos = new List<DecoType>(numOfDecos);
+        AllDecos.Add(DecoType.Rock1);
+        AllDecos.Add(DecoType.Rock2);
+        AllDecos.Add(DecoType.Rock3);
+        AllDecos.Add(DecoType.Rock4);
+        AllDecos.Add(DecoType.Tree1);
+        AllDecos.Add(DecoType.Tree2);
+        AllDecos.Add(DecoType.Tree3);
+        AllDecos.Add(DecoType.Tree4);
+        AllDecos.Add(DecoType.Tree5);
+        AllDecos.Add(DecoType.None);
+
         AllElementsPrefabs = new Dictionary<ElementType, GameObject>();
         AllElementsPrefabs[ElementType.WoodObs] = woodObsTile;
         AllElementsPrefabs[ElementType.Gap] = startGapTile;
         AllElementsPrefabs[ElementType.Track] = trackTile;
 
+        AllDecoPrefabs = new Dictionary<DecoType, GameObject>();
+        AllDecoPrefabs[DecoType.Rock1] = decoRock1;
+        AllDecoPrefabs[DecoType.Rock2] = decoRock2;
+        AllDecoPrefabs[DecoType.Rock3] = decoRock1;
+        AllDecoPrefabs[DecoType.Rock4] = decoRock2;
+        AllDecoPrefabs[DecoType.Tree1] = decoTree1;
+        AllDecoPrefabs[DecoType.Tree2] = decoTree2;
+        AllDecoPrefabs[DecoType.Tree3] = decoTree3;
+        AllDecoPrefabs[DecoType.Tree4] = decoTree4;
+        AllDecoPrefabs[DecoType.Tree5] = decoTree5;
+        AllDecoPrefabs[DecoType.None] = null;
+
         CreateStations();
         Generate();
         CreateLevel();
+        DecoGen(decoAboveYPosMax, decoAboveYPosMin);
+        DecoGen(decoBelowYPosMax, decoBelowYPosMin);
+    }
+
+    void DecoGen(float topEdge, float botEdge)
+    {
+        for (int st = 1; st < AllStations.Count; st++)
+        {
+            float xEdgeBegin = AllStations[st - 1].distanceFromOrigin + 8 * oneUnit;
+            float xEdgeEnd = AllStations[st].distanceFromOrigin - 8 * oneUnit;
+
+            float yEdgeBegin = topEdge;
+            float yEdgeEnd = botEdge;
+
+            DecoType prevDeco = DecoType.None;
+            float prevXOffset = 0f, prevYOffset = 0f;
+
+            int numOfDecosInArea = (int)((xEdgeEnd - xEdgeBegin) / 50f) * 2;
+
+            for (int d = 0; d < numOfDecosInArea; d++)
+            {
+                int decoRand = Random.Range(0, numOfDecos - 1);
+                DecoType deco = AllDecos[decoRand];
+
+                float randXOffset = Random.Range(xEdgeBegin, xEdgeEnd);
+                float randYOffset = Random.Range(yEdgeBegin, yEdgeEnd);
+
+                if (prevDeco != DecoType.None)
+                {
+                    if (prevDeco == deco)
+                    {
+                        randXOffset = prevXOffset + Random.Range(20f, 35f);
+                        randYOffset = prevYOffset + Random.Range(20f, 35f);
+                    }
+                }
+
+                GameObject newDecoObj = Instantiate(AllDecoPrefabs[deco], new Vector2(randXOffset, randYOffset), Quaternion.identity) as GameObject;
+                prevXOffset = randXOffset;
+                prevYOffset = randYOffset;
+                prevDeco = deco;
+            }
+        }
     }
 
     // Stations
@@ -262,15 +340,17 @@ public class ProcGen : MonoBehaviour {
             }
 
             // add more to second obs lane if needed
-            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 1; i++)
+            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 2; i++)
             {
                 botTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
 
             // add more to first obs lane if needed
-            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 1; i++)
+            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 2; i++)
             {
                 midTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
+                Debug.Log("### ### ### ### ### nextXPos = " + newXPos1 + " ### ### ### ### ###");
+                Debug.Log("### ### ### ### ### xPos = " + xPos + " ### ### ### ### ###");
             }
             
         }
@@ -294,13 +374,13 @@ public class ProcGen : MonoBehaviour {
             }
 
             // add more to second obs lane if needed
-            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 1; i++)
+            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 2; i++)
             {
                 botTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
 
             // add more to first obs lane if needed
-            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 1; i++)
+            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 2; i++)
             {
                 topTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
@@ -325,13 +405,13 @@ public class ProcGen : MonoBehaviour {
             }
 
             // add more to second obs lane if needed
-            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 1; i++)
+            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 2; i++)
             {
                 midTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
 
             // add more to first obs lane if needed
-            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 1; i++)
+            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 2; i++)
             {
                 topTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
