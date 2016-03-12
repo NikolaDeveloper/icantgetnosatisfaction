@@ -232,6 +232,7 @@ public class TrainController : MonoBehaviour {
 		if (throttleSpeed <= 0f) {
 
 			SoundController.Instance.TrainMovingSoundOFF();
+			wasMoving = false;
 
 			isEmergencyStopping = false;
 			throttleSpeed = 0f;
