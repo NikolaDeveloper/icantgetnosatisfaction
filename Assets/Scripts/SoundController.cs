@@ -7,34 +7,20 @@ public class SoundController : MonoBehaviour {
 
     public AudioClip hitObstacleClip, stopStationClip, moneyGainClip, screechBrake;
 
-    AudioSource musicObj, trainLoopObj;
+    AudioSource trainLoopObj;
 
-    float sfvol, mvol;
+    float sfvol;
 
     void Awake()
     {
         Instance = this;
-
-        mvol = PlayerPrefs.GetFloat("SatisfactionSettings_musicVolume", 0.8f);
         sfvol = PlayerPrefs.GetFloat("SatisfactionSettings_sfxVolume", 0.9f);
     }
 
     void Start()
     {
-        musicObj = gameObject.GetComponents<AudioSource>()[0];
-        trainLoopObj = gameObject.GetComponents<AudioSource>()[1];
-		musicObj.volume = mvol * 0.2f;
+        trainLoopObj = gameObject.GetComponents<AudioSource>()[0];
 		trainLoopObj.volume = sfvol;
-    }
-
-    public void MusicON()
-    {
-        musicObj.Play();
-    }
-
-    public void MusicOFF()
-    {
-        musicObj.Stop();
     }
 
     public void TrainMovingSoundON()
@@ -49,7 +35,7 @@ public class SoundController : MonoBehaviour {
 
     public void PlayScreechBrakeSound()
     {
-        gameObject.GetComponents<AudioSource>()[2].PlayOneShot(screechBrake, sfvol * 1.2f);
+        gameObject.GetComponents<AudioSource>()[1].PlayOneShot(screechBrake, sfvol * 1.2f);
     }
 
     public void PlayMoneyGainSound()

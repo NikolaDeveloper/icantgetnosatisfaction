@@ -14,8 +14,8 @@ GameObject:
   - 81: {fileID: 8147662}
   - 114: {fileID: 11451352}
   - 114: {fileID: 11484382}
-  - 82: {fileID: 8271802}
   - 82: {fileID: 8219836}
+  - 82: {fileID: 8243856}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -150,7 +150,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!82 &8271802
+--- !u!82 &8243856
 AudioSource:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -159,11 +159,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 82d6b2411323b409da4833ef5791556f, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   Priority: 128
