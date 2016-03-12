@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour {
 	public OffloadBoxController offloadBox;
 	public OnloadBoxController onloadBox;
 
+	public GameCompleteController gameComplete;
+
 
 	// Use this for initialization
 	void Start () {
@@ -31,5 +33,9 @@ public class UIManager : MonoBehaviour {
 
 	public void GameOverTime(){
 		gameOver.SetActive (true);
+	}
+
+	public void CompleteGame(){
+		gameComplete.gameObject.SetActive (true);
 	}
 }

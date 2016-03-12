@@ -804,6 +804,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce0e22e623324c7398a1b2ab6548d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreText: {fileID: 11472918}
+  timerText: {fileID: 11456274}
+  satisfactionText: {fileID: 11450946}
+  finalText: {fileID: 11422116}
 --- !u!114 &11403840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1768,6 +1772,7 @@ MonoBehaviour:
   capacityBox: {fileID: 11432782}
   offloadBox: {fileID: 11454662}
   onloadBox: {fileID: 11407210}
+  gameComplete: {fileID: 0}
 --- !u!114 &11458520
 MonoBehaviour:
   m_ObjectHideFlags: 1
