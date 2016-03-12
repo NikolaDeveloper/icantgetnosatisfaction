@@ -67,4 +67,8 @@ public class StationsController : MonoBehaviour {
 
 	}
 
+	public int getRemainingPassengers () {
+		return passengersToEmbark;
+	}
+
 }
