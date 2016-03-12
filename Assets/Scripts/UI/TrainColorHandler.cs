@@ -20,6 +20,7 @@ public class TrainColorHandler : MonoBehaviour {
 
 	public void setLineName(){
 		PlayerStats.GetInstance ().trainLineName = lineName.text;
-	}
+        SettingsMainMenu.Instance.SetTrainName(lineName.text);
+    }
 
 }
