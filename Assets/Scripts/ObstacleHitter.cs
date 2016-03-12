@@ -14,7 +14,7 @@ public class ObstacleHitter : MonoBehaviour {
     {
         if (col.tag == "block" || col.tag == "wood")
         {
-
+			PlayerStats.GetInstance ().satisfaction -= 5;
             // slow down
 
             tc.throttleSpeed *= 0.5f;
