@@ -23,6 +23,8 @@ public class TrainController : MonoBehaviour {
 	private float[] trackPositions;
 	private int currentStationId = 0;
 
+	private bool finalStation = false;
+
 	private int passengersToDisembark = 0;
 	private float lastDisembarkment = 0;
 
