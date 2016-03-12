@@ -14,7 +14,7 @@ public class PlayerStats {
 	public Color tertiaryColor = Color.white;
 
 	private float gameStartTime;
-	private float deadline = 300;
+	private float deadline = 240;
 
 	private bool wasGameOver = false;
 	private float currentTime;
@@ -71,8 +71,8 @@ public class PlayerStats {
 		gameStartTime = Time.realtimeSinceStartup;
 		satisfaction = 100;
 		playerMoney = 500;
-		TrainController.Instance.passengerCapacity = 350;
-		TrainController.Instance.passengerFull = 200;
+		TrainController.passengerCapacity = 350;
+		TrainController.passengerFull = 200;
 
 	}
 

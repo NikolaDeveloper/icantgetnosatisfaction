@@ -8,8 +8,8 @@ public class TrainController : MonoBehaviour {
 	public float throttleIncrement = 0.05f;
 	public float trackMoveIncrement = 0.5f;
 
-	public int passengerCapacity = 1000;
-	public int passengerFull = 500;
+	public static int passengerCapacity = 1000;
+	public static int passengerFull = 500;
 
 	public static TrainController Instance;
 
@@ -42,11 +42,12 @@ public class TrainController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		this.passengerFull = StationsController.Instance.getInitialPassengers(this.passengerCapacity);
+		TrainController.passengerFull = StationsController.Instance.getInitialPassengers(TrainController.passengerCapacity, TrainController.passengerFull);
+
 		trackPositions = new float[3] {75f, 0f, -75f};
 
 		mainTrain.color = PlayerStats.GetInstance ().mainColor;
-		line.color = PlayerStats.GetInstance ().secondaryColor;
+		line.color =	 PlayerStats.GetInstance ().secondaryColor;
 		windows.color = PlayerStats.GetInstance ().tertiaryColor;
 
 		Debug.Log ("COLOR" + PlayerStats.GetInstance ().mainColor);

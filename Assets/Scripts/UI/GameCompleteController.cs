@@ -50,11 +50,11 @@ public class GameCompleteController : MonoBehaviour {
 	}
 
 	int capacityScore(){
-		int capacity = TrainController.Instance.passengerFull;
+		int capacity = TrainController.passengerFull;
 
 		int score = capacity;
 
-		if (TrainController.Instance.passengerFull >= TrainController.Instance.passengerCapacity){
+		if (TrainController.passengerFull >= TrainController.passengerCapacity){
 			score = score * 10;
 			showMaximumCapacityText ();
 		}

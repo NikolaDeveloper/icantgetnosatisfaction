@@ -9,7 +9,7 @@ public class StationsController : MonoBehaviour {
 	private float lastEmbarkmentTime = 0;
 	private int passengersToEmbark = 0;
 
-	private float timeBetweenEmbarkments = 0.5f;
+	private float timeBetweenEmbarkments = 0.3f;
 
 	void Awake () {
 		Instance = this;
@@ -22,9 +22,9 @@ public class StationsController : MonoBehaviour {
 	void Update () {
 	}
 
-	public int getInitialPassengers (int capacity) {
+	public int getInitialPassengers (int capacity, int full) {
 
-		int passengers = capacity / 2;
+		int passengers = full;
 		this.totalPassengers -= passengers;
 
 		UIManager.instance.capacityBox.SetMaximumCapacity (capacity, passengers);
