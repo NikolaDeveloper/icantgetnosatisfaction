@@ -114,6 +114,7 @@ public class TrainController : MonoBehaviour {
 			float currentTime = Time.realtimeSinceStartup;
 
 			if (currentStationId > lastStationId) {
+				SoundController.Instance.PlayStopAtStationSound();
 				lastStationId = currentStationId;
 			}
 
@@ -129,6 +130,7 @@ public class TrainController : MonoBehaviour {
 			PlayerStats.GetInstance().playerMoney += (10 * newPassengers);
 			if (newPassengers > 0) {
 				UIManager.instance.moneyBox.GainFare ();
+				SoundController.Instance.PlayMoneyGainSound();
 			}
 			passengerFull += newPassengers;
 
@@ -178,6 +180,11 @@ public class TrainController : MonoBehaviour {
 
 		// Allow user to hit space once instead of requiring them to hold it down
 		if (Input.GetKey("space") || isEmergencyStopping) {
+
+			if (!isEmergencyStopping) {
+				SoundController.Instance.PlayScreechBrakeSound();
+			}
+
 			isEmergencyStopping = true;
 
 			currentDeceleration = -(5 * throttleIncrement);
@@ -213,13 +220,14 @@ public class TrainController : MonoBehaviour {
 		}
 
 		if (throttleSpeed < 0f) {
+			SoundController.Instance.TrainMovingSoundON ();
 			isEmergencyStopping = false;
 			throttleSpeed = 0f;
 		} else if (throttleSpeed > 10f) {
 			throttleSpeed = 10f;
+		} else {
+			SoundController.Instance.TrainMovingSoundOFF();
 		}
-
-		Debug.Log (Time.frameCount);
 
 		if (isEmergencyStopping && (Time.frameCount % 10) == 0) {
 			PlayerStats.GetInstance().satisfaction -= Mathf.CeilToInt(20f * (Time.deltaTime));
