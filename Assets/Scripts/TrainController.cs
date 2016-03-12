@@ -26,7 +26,7 @@ public class TrainController : MonoBehaviour {
 	private int passengersToDisembark = 0;
 	private float lastDisembarkment = 0;
 
-	private float wasMoving = false;
+	private bool wasMoving = false;
 
 	public SpriteRenderer mainTrain;
 	public SpriteRenderer line;
