@@ -231,10 +231,7 @@ public class TrainController : MonoBehaviour {
 
 		if (throttleSpeed <= 0f) {
 
-			if (!wasMoving) {
-				wasMoving = true;
-				SoundController.Instance.TrainMovingSoundOFF();
-			}
+			SoundController.Instance.TrainMovingSoundOFF();
 
 			isEmergencyStopping = false;
 			throttleSpeed = 0f;
@@ -242,7 +239,12 @@ public class TrainController : MonoBehaviour {
 		} else if (throttleSpeed > 10f) {
 			throttleSpeed = 10f;
 		} else {
-			SoundController.Instance.TrainMovingSoundON();
+
+			if (!wasMoving) {
+				wasMoving = true;
+				SoundController.Instance.TrainMovingSoundON();
+			}
+				
 		}
 
 		if (isEmergencyStopping && (Time.frameCount % 10) == 0) {
