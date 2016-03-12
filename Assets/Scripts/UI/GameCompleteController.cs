@@ -70,7 +70,13 @@ public class GameCompleteController : MonoBehaviour {
 
 	int satisfactionMultiplier(){
 		int sat = PlayerStats.GetInstance ().satisfaction;
-		return (sat / 10);
+		int bonus = sat / 10;
+
+		if (bonus <= 0) {
+			bonus = 1;
+		}
+
+		return bonus;
 	}
 
 
