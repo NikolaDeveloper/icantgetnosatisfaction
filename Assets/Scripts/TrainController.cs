@@ -98,7 +98,7 @@ public class TrainController : MonoBehaviour {
 		if (col.tag == "station") {
 			isStoppedAtStation = false;
 
-			PlayerStats.GetInstance().satisfaction -= (passengersToDisembark * 1);
+			PlayerStats.GetInstance().satisfaction -= Mathf.RoundToInt(passengersToDisembark * 0.5f);
 		}
 	}
 
@@ -172,7 +172,7 @@ public class TrainController : MonoBehaviour {
 
 		// Cant decelerate faster than an emergency stop
 		if (Input.GetKey("left") && !isEmergencyStopping) {
-			currentDeceleration = -(2 * throttleIncrement);
+			currentDeceleration = -(2.5f * throttleIncrement);
 			throttleSpeed = throttleSpeed + currentDeceleration;
 		}
 
