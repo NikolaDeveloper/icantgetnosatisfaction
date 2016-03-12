@@ -339,17 +339,15 @@ public class ProcGen : MonoBehaviour {
             }
 
             // add more to second obs lane if needed
-            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 1; i++)
+            for (int i = numOfUnits2; i < numOfUnits1; i++)
             {
                 botTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
 
             // add more to first obs lane if needed
-            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 1; i++)
+            for (int i = numOfUnits1; i < numOfUnits2; i++)
             {
                 midTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
-                Debug.Log("### ### ### ### ### nextXPos = " + newXPos1 + " ### ### ### ### ###");
-                Debug.Log("### ### ### ### ### xPos = " + xPos + " ### ### ### ### ###");
             }
             
         }
@@ -373,13 +371,13 @@ public class ProcGen : MonoBehaviour {
             }
 
             // add more to second obs lane if needed
-            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 1; i++)
+            for (int i = numOfUnits2; i < numOfUnits1; i++)
             {
                 botTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
 
             // add more to first obs lane if needed
-            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 1; i++)
+            for (int i = numOfUnits1; i < numOfUnits2; i++)
             {
                 topTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
@@ -404,13 +402,13 @@ public class ProcGen : MonoBehaviour {
             }
 
             // add more to second obs lane if needed
-            for (int i = numOfUnits2; i < numOfUnits1 - numOfUnits2 + 1; i++)
+            for (int i = numOfUnits2; i < numOfUnits1; i++)
             {
                 midTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
 
             // add more to first obs lane if needed
-            for (int i = numOfUnits1; i < numOfUnits2 - numOfUnits1 + 1; i++)
+            for (int i = numOfUnits1; i < numOfUnits2; i++)
             {
                 topTrack.Add(new Element(ElementType.Track, xPos + i * oneUnit));
             }
