@@ -50,6 +50,9 @@ public class ObstacleHitter : MonoBehaviour {
     {
         if (col.tag == "block" || col.tag == "wood")
         {
+            // play sound
+            SoundController.Instance.PlayObstacleHitSound();
+
             // satisfaction hit
             PlayerStats.GetInstance ().satisfaction -= 5;
 
