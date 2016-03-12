@@ -45,22 +45,34 @@ public class TrainController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//Debug.Log (PlayerStats.GetInstance ().satisfaction);
-
+		checkGameOverConditions();
 		passengerEmbarkment();
 		moveTrain();
+	}
+
+
+	void checkGameOverConditions () {
+
+		if (PlayerStats.GetInstance ().isGameOver()) {
+			UIManager.instance.GameOverTime ();
+		}
+
 	}
 
 
 	void OnTriggerEnter2D(Collider2D col) {
 		if (col.tag == "station") {
 
-			if (col.gameObject.GetComponent<CreateMyStations>().id == 7) {
+			int stationId = col.gameObject.GetComponent<CreateMyStations>().id;
+
+			if (stationId == 7) {
 				finalStation = true;
-				Debug.Log("END GAME OMG");
+				UIManager.instance.CompleteGame();
 			}
 
-			isStoppedAtStation = true;
+			if (stationId != 1) {
+				isStoppedAtStation = true;
+			}
 			currentStationId++;
 		}
 	}
@@ -70,10 +82,7 @@ public class TrainController : MonoBehaviour {
 		if (col.tag == "station") {
 			isStoppedAtStation = false;
 
-			Debug.Log (passengersToDisembark);
-
 			PlayerStats.GetInstance().satisfaction -= (passengersToDisembark * 1);
-			Debug.Log (PlayerStats.GetInstance().satisfaction);
 		}
 	}
 
@@ -82,12 +91,6 @@ public class TrainController : MonoBehaviour {
 
 		if (isStoppedAtStation && throttleSpeed == 0f) {
 
-			if (!wasStoppedAtStation) {
-				StationsController.Instance.arriveAtStation(passengersToDisembark);
-			}
-
-			wasStoppedAtStation = true;
-
 			float currentTime = Time.realtimeSinceStartup;
 
 			if (currentStationId > lastStationId) {
@@ -95,6 +98,13 @@ public class TrainController : MonoBehaviour {
 				lastDisembarkment = currentTime;
 				passengersToDisembark = Mathf.FloorToInt(passengerFull / 10);
 			}
+
+			if (!wasStoppedAtStation) {
+				Debug.Log ("ARRIVING AT STATION");
+				StationsController.Instance.arriveAtStation(passengersToDisembark);
+			}
+
+			wasStoppedAtStation = true;
 
 			// Get new passengers from the station
 			int newPassengers = StationsController.Instance.embarkPassenger();
@@ -114,6 +124,7 @@ public class TrainController : MonoBehaviour {
 
 			if (wasStoppedAtStation) {
 				wasStoppedAtStation = false;
+				Debug.Log ("DEPARTING STATION");
 				StationsController.Instance.departStation();
 			}
 
