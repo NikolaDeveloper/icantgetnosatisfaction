@@ -34,8 +34,8 @@ public class StationsController : MonoBehaviour {
 	}
 
 	public void arriveAtStation (int passengersToDisembark) {
-		Debug.Log("Arriving Station");
-		Debug.Log(passengersToDisembark);
+		//Debug.Log("Arriving Station");
+		//Debug.Log(passengersToDisembark);
 		this.passengersToEmbark = totalPassengers / 10;
 		this.totalPassengers -= this.passengersToEmbark;
 		this.lastEmbarkmentTime = Time.realtimeSinceStartup;
@@ -43,7 +43,7 @@ public class StationsController : MonoBehaviour {
 	}
 
 	public void departStation () {
-		Debug.Log("Departing Station");
+		//Debug.Log("Departing Station");
 		UIManager.instance.offloadBox.LeftStation();
 	}
 

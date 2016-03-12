@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Sprites;
 using System.Collections;
 
 public class TrainController : MonoBehaviour {
@@ -21,14 +22,26 @@ public class TrainController : MonoBehaviour {
 	private int passengersToDisembark = 0;
 	private float lastDisembarkment = 0;
 
+	public SpriteRenderer mainTrain;
+	public SpriteRenderer line;
+	public SpriteRenderer windows;
+
 	// Use this for initialization
 	void Start () {
 		this.passengerFull = StationsController.Instance.getInitialPassengers(this.passengerCapacity);
 		trackPositions = new float[3] {75f, 0f, -75f};
+
+		mainTrain.color = PlayerStats.GetInstance ().mainColor;
+		line.color = PlayerStats.GetInstance ().secondaryColor;
+		windows.color = PlayerStats.GetInstance ().tertiaryColor;
+
+		Debug.Log ("COLOR" + PlayerStats.GetInstance ().mainColor);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
+
 
 		passengerEmbarkment();
 		moveTrain();
