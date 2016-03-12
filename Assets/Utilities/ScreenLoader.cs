@@ -8,4 +8,8 @@ public class ScreenLoader : MonoBehaviour {
 		SceneManager.LoadScene ("Landscape");
 
 	}
+
+	public void ResetGame(){
+		SceneManager.LoadScene ("titles");
+	}
 }
