@@ -99,6 +99,12 @@ public class TrainController : MonoBehaviour {
 			isStoppedAtStation = false;
 
 			PlayerStats.GetInstance().satisfaction -= Mathf.RoundToInt(passengersToDisembark * 0.5f);
+
+			int stationId = col.gameObject.GetComponent<CreateMyStations> ().id;
+
+			if (stationId != lastStationId && stationId !=1) {
+				UIManager.instance.MissStation ();
+			}
 		}
 	}
 
@@ -182,6 +188,7 @@ public class TrainController : MonoBehaviour {
 
 			currentDeceleration = -(5 * throttleIncrement);
 			throttleSpeed = throttleSpeed + currentDeceleration;
+			UIManager.instance.EmergencyStop ();
 		}
 
 		if (Input.GetKeyUp("up")) {

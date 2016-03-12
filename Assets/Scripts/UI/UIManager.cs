@@ -15,6 +15,9 @@ public class UIManager : MonoBehaviour {
 	public LineProgressController lineProgress;
 	public MoneyBoxController moneyBox;
 
+	public GameObject missedStation;
+	public GameObject emergencyStop;
+
 	public GameCompleteController gameComplete;
 
 
@@ -24,6 +27,8 @@ public class UIManager : MonoBehaviour {
 	}
 
 	void Awake(){
+		missedStation.SetActive (false);
+		emergencyStop.SetActive (false);
 		gameOver.SetActive (false);
 	}
 	
@@ -41,5 +46,35 @@ public class UIManager : MonoBehaviour {
 
 	public void CompleteGame(){
 		gameComplete.gameObject.SetActive (true);
+	}
+
+	public void MissStation(){
+		StartCoroutine (showMissedStation ());
+	}
+
+	public void EmergencyStop(){
+		StartCoroutine (showEmergencyStop ());
+	}
+
+	IEnumerator showMissedStation(){
+		missedStation.SetActive (true);
+
+		missedStation.GetComponent<Animator> ().Play ("Screen On Right");
+		yield return new WaitForSeconds (3);
+
+		missedStation.GetComponent<Animator> ().Play ("Screen Off Left");
+		yield return new WaitForSeconds (3);
+		missedStation.SetActive (false);
+	}
+
+	IEnumerator showEmergencyStop(){
+		emergencyStop.SetActive (true);
+
+		emergencyStop.GetComponent<Animator> ().Play ("Screen On Right");
+		yield return new WaitForSeconds (3);
+
+		emergencyStop.GetComponent<Animator> ().Play ("Screen Off Left");
+		yield return new WaitForSeconds (3);
+		emergencyStop.SetActive (false);
 	}
 }

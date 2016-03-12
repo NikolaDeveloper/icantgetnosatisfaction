@@ -71,6 +71,8 @@ public class PlayerStats {
 		gameStartTime = Time.realtimeSinceStartup;
 		satisfaction = 100;
 		playerMoney = 500;
+		TrainController.Instance.passengerCapacity = 350;
+		TrainController.Instance.passengerFull = 200;
 
 	}
 
