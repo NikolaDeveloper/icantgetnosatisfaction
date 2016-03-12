@@ -17,6 +17,7 @@ public class SatisfactionBarController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		satisfaction = PlayerStats.GetInstance ().satisfaction;
 		float satFloat = (float)satisfaction;
 		barFill.transform.localScale = new Vector3 (1, satFloat / 100f);
 
