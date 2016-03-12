@@ -24,7 +24,7 @@ public class CreateMyStations : MonoBehaviour {
             stationStripe.transform.parent = gameObject.transform;
         }
 
-        gameObject.GetComponent<BoxCollider2D>().size = new Vector2((sLen - 1) * ProcGen.Instance.oneUnit, 100f);
+        gameObject.GetComponent<BoxCollider2D>().size = new Vector2((sLen - 1) * ProcGen.Instance.oneUnit, 450f);
         gameObject.GetComponent<BoxCollider2D>().offset = new Vector2((sLen - 1) * (ProcGen.Instance.oneUnit / 2f), -25f);
     }
 }
