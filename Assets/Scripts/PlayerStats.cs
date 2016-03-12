@@ -18,7 +18,7 @@ public class PlayerStats {
 
 	public float getTimeRemaining() {
 		float currentTime = Time.realtimeSinceStartup;
-		return currentTime - gameStartTime;
+		return deadline - (currentTime - gameStartTime);
 	}
 
 	public static PlayerStats GetInstance () {
