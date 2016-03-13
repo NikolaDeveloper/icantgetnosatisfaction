@@ -643,9 +643,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Accept
-
-'
+  m_Text: Accept
 --- !u!222 &150951932
 CanvasRenderer:
   m_ObjectHideFlags: 0
