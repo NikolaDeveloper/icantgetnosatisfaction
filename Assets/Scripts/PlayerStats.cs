@@ -14,7 +14,7 @@ public class PlayerStats {
 	public Color tertiaryColor = Color.white;
 
 	private float gameStartTime;
-	private float deadline = 240;
+	public float deadline = 240;
 
 	private bool wasGameOver = false;
 	private float currentTime;
@@ -32,7 +32,6 @@ public class PlayerStats {
 		} else {
 			return Time.realtimeSinceStartup;
 		}
-
 	}
 
 	public float getTimeRemaining() {

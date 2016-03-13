@@ -94,6 +94,7 @@ public class SettingsMainMenu : MonoBehaviour {
         Debug.Log("diff set to " + setDiffLevel);
         gameDifficultyLevel = setDiffLevel;
         PlayerPrefs.SetInt("SatisfactionSettings_gameDifficultyLevel", gameDifficultyLevel);
+        PlayerStats.GetInstance().deadline = DiffLevels[gameDifficultyLevel].deadline;
     }
 
     public void SetTrainName(string name)
