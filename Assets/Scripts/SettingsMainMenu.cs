@@ -24,6 +24,14 @@ public class SettingsMainMenu : MonoBehaviour {
 
     internal DifficultyLevel[] DiffLevels;
 
+    void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
     void Awake()
     {
         Instance = this;

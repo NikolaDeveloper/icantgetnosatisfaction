@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class Settings : MonoBehaviour {
@@ -17,6 +18,14 @@ public class Settings : MonoBehaviour {
     internal DifficultyLevel[] DiffLevels;
 
     internal int gameDifficultyLevel = 1;
+
+    void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("titles");
+        }
+    }
 
     void Awake()
     {
