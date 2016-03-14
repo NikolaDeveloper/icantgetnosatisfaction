@@ -182,7 +182,7 @@ public class TrainController : MonoBehaviour {
 		if (Input.GetKey("right")) {
 			// Accelerating after emergency stopping cancels the emergency stop
 			isEmergencyStopping = false;
-			throttleSpeed = throttleSpeed + throttleIncrement;
+            throttleSpeed = throttleSpeed + (throttleIncrement * 2f);
 		}
 
 		// Cant decelerate faster than an emergency stop
@@ -242,8 +242,8 @@ public class TrainController : MonoBehaviour {
 			isEmergencyStopping = false;
 			throttleSpeed = 0f;
 
-		} else if (throttleSpeed > 20f) {
-			throttleSpeed = 20f;
+		} else if (throttleSpeed > 30f) {
+			throttleSpeed = 30f;
 		} else {
 
 			if (!wasMoving) {

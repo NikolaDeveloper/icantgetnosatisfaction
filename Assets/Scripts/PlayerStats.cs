@@ -60,6 +60,7 @@ public class PlayerStats {
         mainColor = SettingsMainMenu.Instance.mainCol;
         secondaryColor = SettingsMainMenu.Instance.stripeCol;
         secondaryColor = SettingsMainMenu.Instance.windowsCol;
+
         trainLineName = SettingsMainMenu.Instance.trainName;
 
         deadline = SettingsMainMenu.Instance.DiffLevels[SettingsMainMenu.Instance.gameDifficultyLevel].deadline;
